@@ -3,13 +3,13 @@ import { Outlet } from "react-router-dom";
 
 import Sidebar from "../../components/admin/Sidebar";
 
-function AdminLayout() {
+const AdminLayout = () => {
   return (
     <div>
       <Sidebar />
       <div>
         <header>
-          <h1>Admin Dashboard</h1>
+          <h3>Admin Dashboard</h3>
         </header>
         <div>
           <div>
@@ -19,6 +19,6 @@ function AdminLayout() {
       </div>
     </div>
   );
-}
+};
 
 export default AdminLayout;
