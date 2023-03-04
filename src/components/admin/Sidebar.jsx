@@ -56,7 +56,7 @@ const Sidebar = () => {
 
   const customStyles = {
     "sidebar-wrapper":
-      "@apply overflow-x-hidden overflow-y-auto bg-dreamLabColor4 fixed top-0 left-0 z-50 h-full w-14 md:w-14 lg:w-80 text-white text-opacity-50",
+      "@apply bg-dreamLabColor4 fixed top-0 left-0 z-50 h-full w-14 md:w-14 lg:w-80 text-white text-opacity-50",
 
     "sidebar-header-wrapper":
       "@apply hidden lg:block ml-2 py-6 mt-4 space-y-4 px-10",
@@ -75,9 +75,9 @@ const Sidebar = () => {
 
   return (
     <div className={customStyles["sidebar-wrapper"]}>
-      <nav>
+      <nav className="overflow-x-hidden overflow-y-auto">
         <div className={customStyles["sidebar-header-wrapper"]}>
-          <h2 className={`${customStyles["sidebar-header"]} mt-16 text-xl`}>
+          <h2 className={`${customStyles["sidebar-header"]} text-xl`}>
             Admin Dashboard
           </h2>
         </div>
