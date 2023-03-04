@@ -1,15 +1,24 @@
 import { useState } from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, Route, Routes, useRoutes } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
+import { LoginProvider } from "./contexts/LoginContext";
+import { RegisterProvider } from "./contexts/RegisterContext";
 
 function App() {
   const AdminRouting = useRoutes(AdminRoutes);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   return (
-    <div className="text-3xl font-bold underline text-textColor1">
-      Dream Lab
-    </div>
+    <Routes>
+      <Route
+        path="/login"
+        element={isAdmin ? <Navigate to="/admin" replace /> : AdminRouting}
+      />
+      <Route
+        path="/admin/*"
+        element={isAdmin ? AdminRouting : <Navigate to="/login" />}
+      />
+    </Routes>
   );
 }
 
