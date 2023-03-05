@@ -13,7 +13,7 @@ const AdminRoutes = [
     element: <AdminLayout />,
     children: [
       { index: true, element: <Dashboard /> },
-      { index: true, element: <Plan /> },
+      { path: "plans", element: <Plan /> },
       {
         path: "subscription",
         children: [
