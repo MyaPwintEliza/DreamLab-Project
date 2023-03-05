@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Header from "../../components/admin/Header";
 
 import Sidebar from "../../components/admin/Sidebar";
 
@@ -8,9 +9,9 @@ function AdminLayout() {
     <div>
       <Sidebar />
       <div>
-        <header>
+        <Header>
           <h1>Admin Dashboard</h1>
-        </header>
+        </Header>
         <div>
           <div>
             <Outlet />

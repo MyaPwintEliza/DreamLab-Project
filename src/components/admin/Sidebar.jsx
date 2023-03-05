@@ -67,17 +67,11 @@ const Sidebar = () => {
       "@apply hidden lg:flex items-center justify-between ml-2 text-white",
   };
 
-  const navigate = useNavigate();
-  function handleLogout() {
-    navigate(0);
-    navigate("/login");
-  }
-
   return (
     <div className={customStyles["sidebar-wrapper"]}>
       <nav className="overflow-x-hidden overflow-y-auto">
         <div className={customStyles["sidebar-header-wrapper"]}>
-          <h2 className={`${customStyles["sidebar-header"]} text-xl`}>
+          <h2 className={`${customStyles["sidebar-header"]} text-xl mt-20`}>
             Admin Dashboard
           </h2>
         </div>
@@ -209,8 +203,7 @@ const Sidebar = () => {
             <hr className={customStyles["border-top"]} />
             <li className={customStyles["dropdown-title-wrapper"]}>
               <button
-                className={`${customStyles["sidebar-header"]} flex items-center gap-x-2`}
-                onClick={handleLogout}>
+                className={`${customStyles["sidebar-header"]} flex items-center gap-x-2`}>
                 <BiLogOut size={25} />
                 LogOut
               </button>
