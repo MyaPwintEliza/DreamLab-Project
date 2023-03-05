@@ -12,12 +12,6 @@ function index() {
       "@apply bg-dreamLabColor1 text-white rounded-lg py-2 text-lg font-semibold mt-10 w-1/5",
   };
 
-  const navigate = useNavigate();
-
-  function handleClick() {
-    navigate("/register");
-  }
-
   return (
     <section className="flex h-screen items-center">
       <div className="left w-5/12 flex justify-center items-center bg-[#E6FBFF] h-full">
@@ -53,18 +47,21 @@ function index() {
               className={customStyles.input}
             />
           </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="Re-Enter password"
+              className={customStyles["input-header"]}>
+              Re-EnterPassword
+            </label>
+            <input
+              placeholder="Enter your password"
+              type="password"
+              className={customStyles.input}
+            />
+          </div>
           <button className={customStyles.signin} type="submit">
-            Sign in
+            Register
           </button>
-
-          <p className="mt-10">
-            Don't have an account?
-            <span
-              className="ml-2 text-xl text-dreamLabColor1 underline"
-              onClick={handleClick}>
-              Register Now
-            </span>
-          </p>
         </form>
       </div>
     </section>

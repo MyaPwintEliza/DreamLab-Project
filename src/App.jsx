@@ -4,7 +4,7 @@ import AdminRoutes from "./AdminRoutes";
 
 function App() {
   const AdminRouting = useRoutes(AdminRoutes);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
     <Routes>
@@ -16,6 +16,7 @@ function App() {
         path="/admin/*"
         element={isAdmin ? AdminRouting : <Navigate to="/login" />}
       />
+      <Route path="/register" element={AdminRouting} />
     </Routes>
   );
 }
