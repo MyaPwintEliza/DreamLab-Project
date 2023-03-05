@@ -1,24 +1,29 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import Switch from "react-switch";
+import { AiOutlineClose } from "react-icons/ai";
 import CreatePageTitle from "../../../components/admin/CreatePageTitle";
 import InputForm from "../../../components/form/InputForm";
 import TextareaForm from "../../../components/form/TextareaForm";
 import ChoosePlan from "./ChoosePlan";
-import Sidebar from "../../../components/admin/SideBar";
 import Header from "../../../components/admin/Header";
+import Sidebar from "../../../components/admin/SideBar";
 
-const CreateSubscription = () => {
+const EditSubscription = () => {
+  const { id } = useParams();
+
   const [status, setStatus] = useState(false);
   const [choosePlan, setChoosePlan] = useState(false);
+  const [getPlans, setGetPlans] = useState([]);
   const [plans, setPlans] = useState([]);
 
   return (
-    <section >
+    <section>
       <Header children="Subscription Plan" />
       <div className="flex">
         <Sidebar />
         <div className="w-2/5 ml-10  mt-10">
-          <CreatePageTitle title="Create Subscription" />
+          <CreatePageTitle title="Edit Subscription" />
 
           <form className="my-10 ml-10 ">
             <InputForm name="name" placeholder="Type Name" title="Plan Name" />
@@ -56,7 +61,7 @@ const CreateSubscription = () => {
               placeholder="Type Description"
             />
             <button className="btn-2 bg-dreamLabColor3 rounded-md py-2 my-8 flex items-center justify-center gap-x-3 w-full">
-              Create
+              Save
             </button>
           </form>
         </div>
@@ -71,4 +76,4 @@ const CreateSubscription = () => {
   );
 };
 
-export default CreateSubscription;
+export default EditSubscription;
