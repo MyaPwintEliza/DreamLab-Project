@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Switch from "react-switch";
 import CreatePageTitle from "../../../components/admin/CreatePageTitle";
 import InputForm from "../../../components/form/InputForm";
-import TextareaForm from "../../../components/form/TextareaForm";
+import TextareaForm from "../../../components/form/TextareaFrom";
 import ChoosePlan from "./ChoosePlan";
 import Sidebar from "../../../components/admin/SideBar";
 import Header from "../../../components/admin/Header";
@@ -14,9 +14,7 @@ const CreateSubscription = () => {
 
   return (
     <section >
-      <Header children="Subscription Plan" />
       <div className="flex">
-        <Sidebar />
         <div className="w-2/5 ml-10  mt-10">
           <CreatePageTitle title="Create Subscription" />
 
