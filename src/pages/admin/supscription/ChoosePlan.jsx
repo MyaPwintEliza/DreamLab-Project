@@ -13,8 +13,6 @@ const ChoosePlan = ({ choosePlan, setChoosePlan, plans, setPlans }) => {
     }
   };
 
-
-
   const doneHandle = () => {
     setPlans(selectPlans);
     setChoosePlan(false);
