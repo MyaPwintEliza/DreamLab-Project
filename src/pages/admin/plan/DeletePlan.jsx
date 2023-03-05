@@ -1,7 +1,7 @@
 import React from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-const DeleteModel = ({ code, deleteStatus, setDeleteStatus, refreshData }) => {
+const DeleteModel = ({ deleteStatus, setDeleteStatus }) => {
   return (
     <section
       className={`fixed top-1/4 right-1/3 z-50 bg-white shadow-xl flex flex-col items-center w-[400px] py-8 rounded-md px-5 ${
@@ -14,12 +14,12 @@ const DeleteModel = ({ code, deleteStatus, setDeleteStatus, refreshData }) => {
       </p>
       <div className="flex gap-x-7">
         <button
-          className="btn-cancel py-2 px-4"
+          className="bg-cancelBtn py-2 px-4 rounded-md"
           onClick={() => setDeleteStatus(false)}
         >
           Cancel
         </button>
-        <button className="btn-delete py-2 px-4 flex items-center gap-x-3">
+        <button className="bg-deleteBtn py-2 px-4 flex items-center gap-x-3 rounded-md" onClick={() => setDeleteStatus(false)}>
           Delete
         </button>
       </div>

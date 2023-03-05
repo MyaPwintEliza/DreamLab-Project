@@ -33,6 +33,8 @@ module.exports = {
       stoke: "#bfbfbf",
       gold: "#C58F09",
       greyNav: "#8E98B0",
+      deleteBtn: "#BC3131",
+      cancelBtn: "#E4E4E4",
     },
     extend: {},
   },
