@@ -9,12 +9,10 @@ function AdminLayout() {
   return (
     <div>
       <Sidebar />
-      <div>
-        <Header>
-          <h1>Admin Dashboard</h1>
-        </Header>
-        <div>
-          <div>
+      <div className="relative overflow-x-hidden min-h-screen">
+        <Header />
+        <div className="h-full mb-10 ml-14 lg:ml-80">
+          <div className="mx-5 mt-24 p-10">
             <Outlet />
           </div>
         </div>
