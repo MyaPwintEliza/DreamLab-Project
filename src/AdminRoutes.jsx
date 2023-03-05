@@ -5,6 +5,7 @@ import Subscription from "./pages/admin/supscription";
 import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
 import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
+import Register from "./pages/admin/register";
 
 const AdminRoutes = [
   {
@@ -26,6 +27,10 @@ const AdminRoutes = [
   {
     path: "login",
     children: [{ index: true, element: <Login /> }],
+  },
+  {
+    path: "/register",
+    children: [{ index: true, element: <Register /> }],
   },
 ];
 
