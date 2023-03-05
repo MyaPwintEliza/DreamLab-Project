@@ -17,7 +17,6 @@ function App() {
         element={isAdmin ? AdminRouting : <Navigate to="/login" />}
       />
       <Route path="/register" element={AdminRouting} />
-    </Routes>
   );
 }
 
