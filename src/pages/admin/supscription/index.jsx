@@ -15,7 +15,7 @@ const index = () => {
       <section className="flex justify-between items-center">
         <h3 className="font-semibold text-2xl">Subscription plan lists</h3>
         <Link
-          to={"/admin/subscriptions/create"}
+          to={"/admin/subscription/create"}
           className="flex btn-2 items-center py-2 px-10 gap-x-2"
         >
           <IoMdAddCircle />

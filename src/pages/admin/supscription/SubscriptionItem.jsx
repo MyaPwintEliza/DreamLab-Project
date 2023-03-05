@@ -13,7 +13,7 @@ const SubscriptionItem = ({ subscriptionData, setId, setDeleteStatus }) => {
         <div className="col-span-1"></div>
         <article className="flex gap-x-5 col-span-1 self-end">
           <Link
-            to={`/admin/subscriptions/edit/${subscriptionData.id}`}
+            to={`/admin/subscription/edit/${subscriptionData.id}`}
             className="btn-2 py-2 px-6"
           >
             Edit
