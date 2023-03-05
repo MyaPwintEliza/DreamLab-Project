@@ -40,7 +40,8 @@ function index() {
           </div>
 
           <button
-            className="bg-dreamLabColor1 text-white rounded-lg py-2 text-lg font-semibold mt-3 w-1/5"
+            className="bg-dreamLabColor1 text-white rounded-lg py-2 text-lg font-semibold mt-3
+ w-1/5"
             type="submit">
             Sign in
           </button>

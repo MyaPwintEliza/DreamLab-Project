@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Navigate, Route, Routes, useRoutes } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
-import { LoginProvider } from "./contexts/LoginContext";
-import { RegisterProvider } from "./contexts/RegisterContext";
 
 function App() {
   const AdminRouting = useRoutes(AdminRoutes);
