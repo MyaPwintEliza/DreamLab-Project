@@ -100,7 +100,7 @@ const Sidebar = () => {
             </li>
             <li>
               <AdminSidebarLink
-                to="/product"
+                to="/subscription"
                 icon={<RiVipCrownLine className="w-full h-full" />}
                 title="Subscription Plan"
               />
@@ -193,7 +193,7 @@ const Sidebar = () => {
                   title="Subscriber"
                 />
                 <AdminSidebarLink
-                  to="/subscriptions"
+                  to="/subscription"
                   icon={<RiVipCrownLine className="w-full h-full" />}
                   title="Subscription Plan"
                 />
