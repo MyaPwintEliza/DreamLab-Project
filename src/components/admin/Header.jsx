@@ -1,6 +1,5 @@
 import React from "react";
 
-<<<<<<< Updated upstream
 import { BiBell } from "react-icons/bi";
 
 import Logo from "../../assets/Icon.svg";
@@ -41,12 +40,5 @@ const Header = () => {
     </nav>
   );
 };
-=======
-function Header() {
-  return <div>
-    
-  </div>;
-}
->>>>>>> Stashed changes
 
 export default Header;
