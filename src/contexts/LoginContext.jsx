@@ -2,15 +2,19 @@ import { createContext, useContext, useState } from "react";
 
 const LoginContext = createContext(false);
 
+export function useLoginContext() {
+  return useContext(LoginContext);
+}
+
 export function LoginProvider({ children }) {
-  const [status, setStatus] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(false);
 
   function changeStatus() {
-    setStatus(!status);
+    setLoginStatus(!loginStatus);
   }
 
   const ContextValue = {
-    status,
+    loginStatus,
     changeStatus,
   };
 
@@ -19,8 +23,4 @@ export function LoginProvider({ children }) {
       {children}
     </LoginContext.Provider>
   );
-}
-
-function useLoginContext() {
-  return useContext(LoginContext);
 }
