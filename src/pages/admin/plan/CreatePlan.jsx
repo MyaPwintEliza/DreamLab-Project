@@ -25,7 +25,7 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log('create data: ', data);
+    console.log("create data: ", data);
     createPlanMutation.mutate(data);
   };
 
@@ -45,7 +45,11 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
     >
       <section className="flex justify-between items-center">
         <h2 className="font-semibold text-3xl">Create Plan</h2>
-        <AiOutlineClose size={25} onClick={() => setCreateStatus(false)} />
+        <AiOutlineClose
+          size={25}
+          onClick={() => setCreateStatus(false)}
+          className="cursor-pointer"
+        />
       </section>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -68,7 +72,10 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
         {createPlanMutation.isError && (
           <p className="text-red-400">{createPlanMutation.error.message}</p>
         )}
-        <button type="submit" className="bg-dreamLabColor2 py-2 my-8 flex items-center justify-center gap-x-3">
+        <button
+          type="submit"
+          className="bg-dreamLabColor2 py-2 my-8 flex items-center justify-center gap-x-3"
+        >
           {createPlanMutation.isLoading && (
             <ClipLoader color="white" size={20} />
           )}
