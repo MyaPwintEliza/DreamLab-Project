@@ -8,8 +8,7 @@ const CreatePageTitle = ({ title }) => {
     <article className="flex items-center gap-x-20">
       <button
         className="flex gap-x-2 font-bold text-lg text-dreamLabColor1 "
-        onClick={() => navigate(-1)}
-      >
+        onClick={() => navigate(-1)}>
         <IoMdArrowBack size={25} />
         Back
       </button>

@@ -1,10 +1,29 @@
 import React from "react";
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import LoginImg from "../../../assets/adminlogin.png";
 import Logo2 from "../../../assets/Logo2.svg";
+import { useUserLogin } from "../../../hooks/useUserAuth";
+import { ClipLoader } from "react-spinners";
+
+const userLoginSchema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().min(8).required(),
+});
 
 function index() {
+  const adminLoginMutation = useUserLogin();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userLoginSchema),
+  });
+
   const customStyles = {
     "form-header": "@apply font-bold text-2xl w-full ",
     "input-header": "@apply font-semibold text-xl mt-10 w-full",
@@ -19,6 +38,10 @@ function index() {
     navigate("/register");
   }
 
+  function onSubmit(data) {
+    adminLoginMutation.mutate(data);
+  }
+
   return (
     <section className="flex h-screen items-center">
       <div className="left w-5/12 flex justify-center items-center bg-[#E6FBFF] h-full">
@@ -30,7 +53,9 @@ function index() {
         <figure>
           <img src={Logo2} />
         </figure>
-        <form className="flex flex-col w-full px-10 mt-10">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col w-full px-10 mt-10">
           <h1 className={customStyles["form-header"]}>
             Welcome to DreamLab Admin
           </h1>
@@ -42,7 +67,11 @@ function index() {
               placeholder="Enter your email"
               type="text"
               className={customStyles.input}
+              {...register("email")}
             />
+            {errors.email && (
+              <p className="text-red-400">{errors.email.message}</p>
+            )}
           </div>
           <div className="password flex flex-col">
             <label htmlFor="password" className={customStyles["input-header"]}>
@@ -52,10 +81,20 @@ function index() {
               placeholder="Enter your password"
               type="password"
               className={customStyles.input}
+              {...register("password")}
             />
+            {errors.password && (
+              <p className="text-red-400">{errors.password.message}</p>
+            )}
           </div>
+          {adminLoginMutation.isError && (
+            <p className="text-red-400">{adminLoginMutation.error.message}</p>
+          )}
           <button className={customStyles.signin} type="submit">
             Sign in
+            {adminLoginMutation.isLoading && (
+              <ClipLoader color="white" size={20} />
+            )}
           </button>
 
           <p className="mt-10">

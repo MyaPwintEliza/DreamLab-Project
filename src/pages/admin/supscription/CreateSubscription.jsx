@@ -4,8 +4,6 @@ import CreatePageTitle from "../../../components/admin/CreatePageTitle";
 import InputForm from "../../../components/form/InputForm";
 import TextareaForm from "../../../components/form/TextareaFrom";
 import ChoosePlan from "./ChoosePlan";
-import Sidebar from "../../../components/admin/SideBar";
-import Header from "../../../components/admin/Header";
 
 const CreateSubscription = () => {
   const [status, setStatus] = useState(false);
@@ -13,7 +11,7 @@ const CreateSubscription = () => {
   const [plans, setPlans] = useState([]);
 
   return (
-    <section >
+    <section>
       <div className="flex">
         <div className="w-2/5 ml-10  mt-10">
           <CreatePageTitle title="Create Subscription" />
@@ -41,8 +39,7 @@ const CreateSubscription = () => {
             <div>
               <section
                 className="rounded-md py-1.5 px-4 border-stoke border-2 w-full bg-white"
-                onClick={() => setChoosePlan(true)}
-              >
+                onClick={() => setChoosePlan(true)}>
                 Choose Plan
               </section>
 

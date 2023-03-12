@@ -1,6 +1,7 @@
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
 import { MdLocalLibrary } from "react-icons/md";
+
 import { TbMoneybag } from "react-icons/tb";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPerson } from "react-icons/bs";
@@ -42,8 +43,7 @@ function Navbar() {
             type="text"
             className="bg-dreamLabColor5 text-sm h-10 w-80 px-12 rounded-full focus:outline-none hover:cursor-pointer"
             placeholder="search here"
-            name=""
-          ></input>
+            name=""></input>
         </div>
 
         <div>

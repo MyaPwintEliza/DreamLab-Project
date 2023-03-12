@@ -2,13 +2,17 @@ import { createContext, useContext, useState } from "react";
 
 const RegisterContext = createContext(false);
 
-export function RegisterProvider(children) {
-  const [status, setStatus] = useState(false);
+export function useRegisterContext() {
+  return useContext(RegisterContext);
+}
 
-  const changeStatus = (status) => setStatus(!status);
+export function RegisterProvider(children) {
+  const [registerStatus, setRegisterStatus] = useState(false);
+
+  const changeStatus = (status) => setRegisterStatus(!registerStatus);
 
   const ContextValue = {
-    status,
+    registerStatus,
     changeStatus,
   };
 
@@ -17,8 +21,4 @@ export function RegisterProvider(children) {
       {children}
     </RegisterContext.Provider>
   );
-}
-
-export function useRegisterContext() {
-  return useContext(RegisterContext);
 }
