@@ -2,6 +2,7 @@ import React from "react";
 
 const InputForm = ({
   title,
+  id,
   name,
   type = "text",
   placeholder = "",
@@ -14,7 +15,8 @@ const InputForm = ({
         {title}
       </label>
       <input
-        id={name}
+        id={id}
+        name={name}
         type={type}
         className="rounded-md py-1.5 px-4 border-stoke border-2 w-full"
         placeholder={placeholder}
