@@ -57,6 +57,7 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
       >
         <InputForm
           title="Plan Code"
+          id="code"
           name="code"
           placeholder="Type Plan Code"
           register={register}
@@ -64,6 +65,7 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
         />
         <InputForm
           title="Plan Name"
+          id="code"
           name="name"
           placeholder="Type Plan Name"
           register={register}
@@ -72,10 +74,7 @@ const CreatePlan = ({ createStatus, setCreateStatus, refreshData }) => {
         {createPlanMutation.isError && (
           <p className="text-red-400">{createPlanMutation.error.message}</p>
         )}
-        <button
-          type="submit"
-          className="bg-dreamLabColor2 py-2 my-8 flex items-center justify-center gap-x-3"
-        >
+        <button className="bg-dreamLabColor2 py-2 my-8 flex items-center justify-center gap-x-3">
           {createPlanMutation.isLoading && (
             <ClipLoader color="white" size={20} />
           )}
