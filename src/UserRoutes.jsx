@@ -1,5 +1,5 @@
 import AppLayout from "./layouts/user/AppLayout";
-import Home from "./pages/user/home";
+import Home from "./pages/user/home/index.jsx";
 
 const routes = [
   {

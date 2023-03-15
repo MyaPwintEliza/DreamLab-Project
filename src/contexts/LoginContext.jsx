@@ -1,26 +1,22 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext } from "react";
+import { useContext, useState } from "react";
 
 const LoginContext = createContext(false);
 
-export function useLoginContext() {
+export const useLoginContext = () => {
   return useContext(LoginContext);
-}
+};
 
-export function LoginProvider({ children }) {
-  const [loginStatus, setLoginStatus] = useState(false);
+export const LoginProvider = ({ children }) => {
+  const [status, setStatus] = useState(false);
 
-  function changeStatus() {
-    setLoginStatus(!loginStatus);
-  }
-
-  const ContextValue = {
-    loginStatus,
-    changeStatus,
+  const changeStatus = () => {
+    setStatus(!status);
   };
 
   return (
-    <LoginContext.Provider value={ContextValue}>
+    <LoginContext.Provider value={{ status, changeStatus }}>
       {children}
     </LoginContext.Provider>
   );
-}
+};
