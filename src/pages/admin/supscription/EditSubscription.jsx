@@ -1,43 +1,165 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Switch from "react-switch";
-// import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import { ClipLoader } from "react-spinners";
 import CreatePageTitle from "../../../components/admin/CreatePageTitle";
+import { SubscriptionSchema } from "./CreateSubscription";
 import InputForm from "../../../components/form/InputForm";
-import TextareaForm from "../../../components/form/TextareaFrom";
+import TextareaFrom from "../../../components/form/TextareaFrom";
 import ChoosePlan from "./ChoosePlan";
-
+import {
+  useRemovePlan,
+  useSubscriptionData,
+  useUpdateSubscription,
+} from "../../../hooks/useSubscriptions";
 
 const EditSubscription = () => {
-  // const { id } = useParams();
+  const { id } = useParams();
 
   const [status, setStatus] = useState(false);
   const [choosePlan, setChoosePlan] = useState(false);
+  const [getPlans, setGetPlans] = useState([]);
   const [plans, setPlans] = useState([]);
 
+  const {
+    isLoading: isSubscriptionLoading,
+    isSuccess: isSubscriptionSuccess,
+    data: subscriptionData,
+    refetch: subscriptionRefetch,
+  } = useSubscriptionData(id);
+
+  const removePlanMutation = useRemovePlan();
+
+  const updateSubscriptionMutation = useUpdateSubscription();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(SubscriptionSchema),
+  });
+
+  // remove plan
+  const planRemoveHandler = async (planId) => {
+    removePlanMutation.mutate(planId);
+  };
+
+  useEffect(() => {
+    if (removePlanMutation.isSuccess) {
+      subscriptionRefetch();
+    }
+  }, [removePlanMutation.isSuccess]);
+
+  const onSubmit = async (data) => {
+    data["id"] = subscriptionData.id;
+    if (status) {
+      data["status"] = "a";
+    } else {
+      data["status"] = "p";
+    }
+    data["plans"] = plans;
+
+    updateSubscriptionMutation.mutate(data);
+  };
+
+  useEffect(() => {
+    if (isSubscriptionSuccess) {
+      setValue("name", subscriptionData?.name);
+      setValue("stackTitle", subscriptionData?.stackTitle);
+      setValue("originalPrice", subscriptionData?.originalPrice);
+      setValue("salePrice", subscriptionData?.salePrice);
+      setValue("description", subscriptionData?.description);
+      setValue("subscribeLength", subscriptionData?.subscribeLength);
+      setValue("subscribeType", subscriptionData?.subscribeType);
+
+      setStatus(subscriptionData?.status === "a" ? true : false);
+      setGetPlans(subscriptionData?.subscriptionPlans);
+    }
+  }, [isSubscriptionSuccess, subscriptionData, setValue]);
   return (
     <section>
-      <div className="flex">
-        <div className="w-2/5 ml-10  mt-10">
+      <div className="flex ">
+        <div className="w-3/5 ml-10  mt-10">
           <CreatePageTitle title="Edit Subscription" />
-          <form className="my-10 ml-10 ">
-            <InputForm name="name" placeholder="Type Name" title="Plan Name" />
+          <form action="" onSubmit={handleSubmit(onSubmit)} className="my-10">
             <InputForm
-              name="originalprice"
-              placeholder="0 Ks"
-              title="Original Price"
+              title="Subscription Name"
+              name="name"
+              errors={errors}
+              placeholder="Type name"
+              register={register}
             />
-            <InputForm name="saleprice" placeholder="0 Ks" title="Sale Price" />
-            <section className="flex justify-between items-center gap-x-20 my-10">
-              <p className="font-semibold text-lg">Schedule Sale</p>
-              <Switch onChange={() => setStatus(!status)} checked={status} />
-            </section>
-            <section className="flex justify-between items-center gap-x-20 my-10">
+            <InputForm
+              title="Stack Title"
+              name="stackTitle"
+              errors={errors}
+              placeholder="Type stack title"
+              register={register}
+            />
+            <InputForm
+              title="Original Price"
+              name="originalPrice"
+              type="number"
+              errors={errors}
+              placeholder="0 Ks"
+              register={register}
+            />
+            <InputForm
+              title="Sale Price"
+              name="salePrice"
+              type="number"
+              errors={errors}
+              placeholder="0 Ks"
+              register={register}
+            />
+            <article className="flex gap-x-10">
+              <InputForm
+                title="Subscription Length"
+                name="subscribeLength"
+                type="number"
+                errors={errors}
+                placeholder="1"
+                register={register}
+              />
+              <section className="w-full">
+                <label
+                  htmlFor="subscribeType"
+                  className="font-semibold my-2 block"
+                >
+                  Subscription Length Type
+                </label>
+                <select
+                  id="subscribeType"
+                  className="rounded-md py-1.5 px-4 border-stoke border-2 w-full bg-white"
+                  {...register("subscribeType")}
+                >
+                  <option value="d" selected>
+                    Day
+                  </option>
+                  <option value="m">Month</option>
+                  <option value="y">Year</option>
+                </select>
+                {errors["subscribeType"] && (
+                  <p className="text-red-500">
+                    {errors["subscribeType"]?.message}
+                  </p>
+                )}
+              </section>
+            </article>
+            <TextareaFrom
+              title="Description"
+              name="description"
+              placeholder="Type Description"
+              errors={errors}
+              register={register}
+            />
+            <section className=" grid grid-cols-2 my-5">
               <p className="font-semibold text-lg">Active Status</p>
-              <Switch onChange={() => setStatus(!status)} checked={status} />
-            </section>
-            <section className="flex justify-between items-center gap-x-20 my-10">
-              <p className="font-semibold text-lg">Popular Sale</p>
               <Switch onChange={() => setStatus(!status)} checked={status} />
             </section>
             <div>
@@ -47,15 +169,33 @@ const EditSubscription = () => {
               >
                 Choose Plan
               </section>
-
-              <p>{plans.length} Plan selected</p>
+              <p>{plans.length + getPlans.length} Plan selected</p>
+              <div className="flex gap-5 my-5">
+                {getPlans.map((plan, key) => (
+                  <div className="rounded-full py-1.5 px-4 border-stoke border-2 bg-white flex items-center gap-x-5">
+                    {plan.plan.name}
+                    <div>
+                      <AiOutlineClose
+                        className="font-semibold hover:cursor-pointer"
+                        onClick={() => planRemoveHandler(plan.id)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <TextareaForm
-              title="Description"
-              name="description"
-              placeholder="Type Description"
-            />
-            <button className="btn-2 bg-dreamLabColor3 rounded-md py-2 my-8 flex items-center justify-center gap-x-3 w-full">
+            {updateSubscriptionMutation.isError && (
+              <ErrorMessage
+                message={updateSubscriptionMutation.error.message}
+              />
+            )}
+            <button
+              className="btn-2 bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3 w-full"
+              type="submit"
+            >
+              {updateSubscriptionMutation.isLoading && (
+                <ClipLoader color="white" size={20} />
+              )}
               Save
             </button>
           </form>
