@@ -20,7 +20,7 @@ const InputForm = ({
         type={type}
         className="rounded-md py-1.5 px-4 border-stoke border-2 w-full"
         placeholder={placeholder}
-        register={register}
+        {...register(name)}
       />
       {errors[name] && <p className="text-red-500">{errors[name]?.message}</p>}
     </section>
