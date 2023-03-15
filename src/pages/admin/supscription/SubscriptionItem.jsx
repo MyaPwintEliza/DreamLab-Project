@@ -14,12 +14,12 @@ const SubscriptionItem = ({ subscriptionData, setId, setDeleteStatus }) => {
         <article className="flex gap-x-5 col-span-1 self-end">
           <Link
             to={`/admin/subscription/edit/${subscriptionData.id}`}
-            className="btn-2 py-2 px-6"
+            className="bg-dreamLabColor2 rounded-md btn-2 py-2 px-6"
           >
             Edit
           </Link>
           <button
-            className="text-red-600"
+            className="text-red-600 font-medium"
             onClick={() => {
               setId(`${subscriptionData.id}`);
               setDeleteStatus(true);
