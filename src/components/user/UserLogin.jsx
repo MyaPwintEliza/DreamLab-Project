@@ -1,63 +1,89 @@
-import React from "react";
-import { AiOutlineLine } from "react-icons/ai";
-import { AiFillGoogleCircle } from "react-icons/ai";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
+import { useLoginContext } from "../../contexts/LoginContext";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ClipLoader } from "react-spinners";
+import * as yup from "yup";
+import { useUserLogin } from "../../hooks/useUserAuth";
 
-function UserLogin() {
+const UserLoginSchema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().min(8).required(),
+});
+
+const UserLogin = () => {
+  const { changeStatus } = useLoginContext();
+
+  const userLoginMutation = useUserLogin();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(UserLoginSchema),
+  });
+
+  const onSubmit = (data) => {
+    userLoginMutation.mutate(data);
+  };
+
+  useEffect(() => {
+    if (userLoginMutation.isSuccess) {
+      changeStatus();
+    }
+  }, [userLoginMutation.isSuccess]);
+
   return (
-    <div className="py-5 px-10 w-[32rem] mx-auto mt-20 bg-white shadow-lg rounded-3xl ">
-      <div className="float-right">
-        <IoMdClose />
+    <article className="bg-white shadow-lg rounded-md py-5 px-10 w-[32rem]">
+      <div className="flex justify-end items-center">
+        <IoMdClose size={25} onClick={changeStatus} />
       </div>
-      <section className="my-10 ">
-        <h3 className="text-center font-sans">Login</h3>
-        <p className="text-center font-medium text-lg py-2 text-textColor4  ">
+      <section className="my-10">
+        <h3 className="font-bold text-3xl text-center">Login</h3>
+        <p className="text-center font-medium text-lg py-2 text-textColor4">
           Login to find new experiences
         </p>
-        <form action="" className="flex flex-col gap-y-5 mt-8">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-y-5 mt-8">
           <input
+            id="email"
             type="email"
-            className="rounded-md py-1.5 px-4 border-stoke border-2 text-sm font-medium"
-            placeholder="Email / Phone no"
+            className="rounded-md py-1.5 px-4 border-stoke border-2"
+            placeholder="Email"
+            {...register("email")}
           />
+          {errors.email && (
+            <p className="text-red-400">{errors.email.message}</p>
+          )}
           <input
             id="password"
             type="password"
-            className="rounded-md py-1.5 px-4 border-stoke border-2 text-sm font-medium"
+            className="rounded-md py-1.5 px-4 border-stoke border-2"
             placeholder="Password"
+            {...register("password")}
           />
-          <a className="text-xs font-thin">Forget password?</a>
+          {errors.password && (
+            <p className="text-red-400">{errors.password.message}</p>
+          )}
+          {userLoginMutation.isError && (
+            <p className="text-red-400">{userLoginMutation.error.message}</p>
+          )}
           <button
-            className="bg-dreamLabColor2 text-dreamLabColor-1 rounded-md py-1.5 text-lg font-medium mt-3 
+            className="bg-dreamLabColor1 text-white rounded-md py-1.5 text-lg font-semibold mt-3
             flex items-center justify-center gap-2"
-            type="submit"
-          >
+            type="submit">
+            {userLoginMutation.isLoading && (
+              <ClipLoader color="white" size={20} />
+            )}
             Login
           </button>
-          <div className="flex mx-auto">
-            <AiOutlineLine />
-            <p className="flex text-base font-medium mt-1">Or Sign in with</p>
-            <AiOutlineLine />
-          </div>
-          <button
-            className=" text-dreamLabColor4 border rounded-md py-1.5 text-lg font-thin w-48 mx-auto bg-transparent
-            flex items-center justify-center gap-2"
-            type="submit"
-          >
-            <AiFillGoogleCircle /> Google
-          </button>
-          <div>
-            <p className="text-sm font-thin text-center">
-              Don't have an account?&nbsp;&nbsp;
-              <span className="font-semibold text-dreamLabColor4">
-                Request Now
-              </span>
-            </p>
-          </div>
         </form>
       </section>
-    </div>
+    </article>
   );
-}
+};
 
 export default UserLogin;

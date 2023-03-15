@@ -1,24 +1,22 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext } from "react";
+import { useContext, useState } from "react";
 
 const RegisterContext = createContext(false);
 
-export function useRegisterContext() {
+export const useRegisterContext = () => {
   return useContext(RegisterContext);
-}
+};
 
-export function RegisterProvider(children) {
-  const [registerStatus, setRegisterStatus] = useState(false);
+export const RegisterProvider = ({ children }) => {
+  const [status, setStatus] = useState(false);
 
-  const changeStatus = (status) => setRegisterStatus(!registerStatus);
-
-  const ContextValue = {
-    registerStatus,
-    changeStatus,
+  const changeStatus = () => {
+    setStatus(!status);
   };
 
   return (
-    <RegisterContext.Provider value={ContextValue}>
+    <RegisterContext.Provider value={{ status, changeStatus }}>
       {children}
     </RegisterContext.Provider>
   );
-}
+};
