@@ -44,8 +44,7 @@ const ChoosePlan = ({
     <div
       className={`fixed top-0 bg-white h-full text-black right-0 z-50 bottom-0 w-[500px] shadow-lg p-10 ${
         choosePlan ? "block" : "hidden"
-      }`}
-    >
+      }`}>
       <section className="flex justify-between items-center">
         <h2 className="font-semibold text-3xl">Select Plan</h2>
         <AiOutlineClose size={25} onClick={() => setChoosePlan(false)} />
@@ -54,6 +53,7 @@ const ChoosePlan = ({
         {data.map((plan, key) => (
           <div className="flex items-center gap-x-3">
             <input
+              key={key}
               type="checkbox"
               name=""
               id={plan.code}
@@ -68,7 +68,9 @@ const ChoosePlan = ({
           </div>
         ))}
       </div>
-      <button className="btn-2 bg-dreamLabColor2 rounded-md w-full py-2" onClick={doneHandle}>
+      <button
+        className="btn-2 bg-dreamLabColor2 rounded-md w-full py-2"
+        onClick={doneHandle}>
         Done
       </button>
     </div>
