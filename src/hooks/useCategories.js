@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createCategory,
+  deleteCategory,
   fetchCategories,
   fetchCategory,
   updateCategory,
@@ -20,4 +21,8 @@ export const useCreateCategory = () => {
 
 export const useUpdateCategory = () => {
   return useMutation(updateCategory);
+};
+
+export const useDeleteCategory = () => {
+  return useMutation(deleteCategory);
 };

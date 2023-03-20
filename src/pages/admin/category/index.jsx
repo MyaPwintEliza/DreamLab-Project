@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import CategoryItem from "./CategoryItem";
 import CreateCategory from "./CreateCategory";
 
-// import DeletePlan from "./DeletePlan";
 import AdminContentTitle from "../../../components/admin/AdminContentTitle";
 import { ClipLoader } from "react-spinners";
 import { useCategoriesData } from "../../../hooks/useCategories";
 import EditCategory from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 const index = () => {
   const [createStatus, setCreateStatus] = useState(false);
@@ -14,13 +14,12 @@ const index = () => {
   const [deleteStatus, setDeleteStatus] = useState(false);
   const [id, setId] = useState(0);
   const [editCategory, setEditCategory] = useState({
-    id,
+    id: "",
     name: "",
     icon: "",
   });
 
   const { isLoading, isError, error, data, refetch } = useCategoriesData();
-  console.log("data: ", data);
 
   const refreshData = () => {
     refetch();
@@ -68,13 +67,13 @@ const index = () => {
         setEditStatus={setEditStatus}
         refreshData={refreshData}
       />
-      {/* 
-      <DeletePlan
-        code={code}
+
+      <DeleteCategory
+        id={id}
         deleteStatus={deleteStatus}
         setDeleteStatus={setDeleteStatus}
         refreshData={refreshData}
-      /> */}
+      />
     </article>
   );
 };

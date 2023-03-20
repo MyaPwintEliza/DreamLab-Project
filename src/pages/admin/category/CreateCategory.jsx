@@ -28,8 +28,8 @@ const CreateCategory = ({ createStatus, setCreateStatus, refreshData }) => {
   const onSubmit = async (data) => {
     console.dir(icon[0]);
     const formData = new FormData();
-    formData.append("name", data);
-    formData.append("icon", icon);
+    formData.append("name", data.name);
+    formData.append("icon", icon[0], icon[0].name);
 
     createCategoryMutation.mutate(formData);
   };
