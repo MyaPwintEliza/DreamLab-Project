@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from "react-switch";
 import CreatePageTitle from "../../../components/admin/CreatePageTitle";
 import InputForm from "../../../components/form/InputForm";
@@ -50,6 +50,8 @@ const CreateSubscription = () => {
     createSubscriptionMutation.mutate(data);
   };
 
+   const onError = (errors, e) => console.log(errors, e);
+
   const removePlanMutation = useRemovePlan();
 
   useEffect(() => {
@@ -61,10 +63,10 @@ const CreateSubscription = () => {
   return (
     <section>
       <div className="flex">
-        <div className="w-2/5 ml-10  mt-10">
+        <div className="w-3/5 ml-10  mt-10">
           <CreatePageTitle title="Create Subscription" />
 
-          <form onSubmit={handleSubmit(onSubmit)} className="my-10">
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="my-10">
             <InputForm
               title="Subscription Name"
               name="name"
