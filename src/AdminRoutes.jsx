@@ -17,7 +17,7 @@ const AdminRoutes = [
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
       {
-        path: "subscription",
+        path: "subscriptions",
         children: [
           { index: true, element: <Subscription /> },
           { path: "create", element: <CreateSubscription /> },
