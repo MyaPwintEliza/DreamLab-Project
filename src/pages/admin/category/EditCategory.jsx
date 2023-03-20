@@ -17,9 +17,10 @@ const EditCategory = ({
 
   const [icon, setIcon] = useState(null);
 
-  const handleIconChange = (event) => {
-    setIcon(event.target.files[0]);
-    console.log(icon);
+  const handleIconChange = (e) => {
+    if (e.target.files.length) {
+      setIcon(e.target.files);
+    }
   };
 
   const {
@@ -30,8 +31,11 @@ const EditCategory = ({
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log("edit data: ", data);
-    updateCategoryMutation.mutate(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("id", data.id.toString());
+    formData.append("icon", icon[0], icon[0].name);
+    updateCategoryMutation.mutate(formData);
   };
 
   useEffect(() => {
@@ -69,12 +73,12 @@ const EditCategory = ({
           <label className="block">
             <span className="sr-only">Choose profile photo</span>
             <input
+              required
               onChange={handleIconChange}
               accept="image/*"
               id="icon"
               type="file"
               name="icon"
-              {...register("icon")}
               class="block w-full text-sm text-slate-500
       file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
