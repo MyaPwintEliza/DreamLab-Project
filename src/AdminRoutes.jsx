@@ -7,6 +7,8 @@ import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
 import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
 import Register from "./pages/admin/register";
+import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
+import BookAuthors from "./pages/admin/Authors/BookAuthors";
 
 const AdminRoutes = [
   {
@@ -16,8 +18,14 @@ const AdminRoutes = [
       { index: true, element: <Dashboard /> },
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
-      {
-        path: "subscriptions",
+      { path: "authors",
+        children: [
+          { index: true, element: <ArticleAuthors /> },
+          { path: "articleauthors", element: <ArticleAuthors /> },
+          { path: "bookauthors", element: <BookAuthors /> },
+        ],
+      },
+      { path: "subscription",
         children: [
           { index: true, element: <Subscription /> },
           { path: "create", element: <CreateSubscription /> },
