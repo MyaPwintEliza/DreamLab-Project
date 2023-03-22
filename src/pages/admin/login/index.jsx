@@ -5,8 +5,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import LoginImg from "../../../assets/adminlogin.png";
 import Logo2 from "../../../assets/Logo2.svg";
-import { useUserLogin } from "../../../hooks/useUserAuth";
 import { ClipLoader } from "react-spinners";
+import { useAdminLogin } from "../../../hooks/useAdminAuth";
 
 const userLoginSchema = yup.object({
   email: yup.string().required(),
@@ -14,7 +14,7 @@ const userLoginSchema = yup.object({
 });
 
 function index() {
-  const adminLoginMutation = useUserLogin();
+  const adminLoginMutation = useAdminLogin();
 
   const {
     register,

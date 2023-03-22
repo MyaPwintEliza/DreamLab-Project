@@ -1,6 +1,7 @@
 import AdminLayout from "./layouts/admin/AdminLayout";
 import Dashboard from "./pages/admin/dashboard";
 import Plan from "./pages/admin/plan";
+import Category from "./pages/admin/category";
 import Subscription from "./pages/admin/supscription";
 import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
 import EditSubscription from "./pages/admin/supscription/EditSubscription";
@@ -16,16 +17,15 @@ const AdminRoutes = [
     children: [
       { index: true, element: <Dashboard /> },
       { path: "plans", element: <Plan /> },
-      {
-        path: "authors",
+      { path: "categories", element: <Category /> },
+      { path: "authors",
         children: [
           { index: true, element: <ArticleAuthors /> },
           { path: "articleauthors", element: <ArticleAuthors /> },
           { path: "bookauthors", element: <BookAuthors /> },
         ],
       },
-      {
-        path: "subscription",
+      { path: "subscription",
         children: [
           { index: true, element: <Subscription /> },
           { path: "create", element: <CreateSubscription /> },

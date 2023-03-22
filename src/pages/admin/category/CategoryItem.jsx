@@ -1,20 +1,28 @@
 import React from "react";
 
-const PlanItem = ({
-  plan,
-  setEditPlan,
-  setCode,
+const CategoryItem = ({
+  setId,
+  category,
+  setEditCategory,
   setEditStatus,
   setDeleteStatus,
 }) => {
   return (
     <section className="shadow-xl flex justify-between items-center py-8 px-5 rounded-md my-5 w-full">
-      <p className="text-lg font-medium">{plan.name}</p>
+      <div className="flex items-center justify-center">
+        <img
+          className="rounded-full w-10 object-contain mr-3"
+          src={category.icon}
+          alt="icon image"
+        />
+        <p className="text-lg font-medium">{category.name}</p>
+      </div>
       <div className="flex gap-x-5">
         <button
           className="bg-dreamLabColor2 py-2 px-6 rounded-md"
           onClick={() => {
-            setEditPlan(plan);
+            setId(`${category.id}`);
+            setEditCategory(category);
             setEditStatus(true);
           }}>
           Edit
@@ -22,7 +30,7 @@ const PlanItem = ({
         <button
           className="text-red-600 font-medium rounded-md"
           onClick={() => {
-            setCode(plan.code);
+            setId(category.id);
             setDeleteStatus(true);
           }}>
           Delete
@@ -32,4 +40,4 @@ const PlanItem = ({
   );
 };
 
-export default PlanItem;
+export default CategoryItem;
