@@ -6,13 +6,11 @@ import CreateSubscription from "./pages/admin/subscription/CreateSubscription";
 import EditSubscription from "./pages/admin/subscription/EditSubscription";
 import Login from "./pages/admin/login";
 import Register from "./pages/admin/register";
-import Subscriber from "./pages/admin/subscriber"
-import SubscriberIndex from "../pages/admin/subscriber";
-import AllSubscriber from "../pages/admin/subscriber/AllSubscriber";
-import RequestSubscriber from "../pages/admin/subscriber/RequestSubscriber";
-import ActiveSubscriber from "../pages/admin/subscriber/ActiveSubscriber";
-import ExpiredSubscriber from "../pages/admin/subscriber/ExpiredSubscriber";
-
+import SubscriberIndex from "./pages/admin/subscriber";
+import AllSubscribers from "./pages/admin/subscriber/AllSubscribers";
+import RequestSubscriber from "./pages/admin/subscriber/RequestSubscriber";
+import ActiveSubscriber from "./pages/admin/subscriber/ActiveSubscribers";
+import ExpiredSubscriber from "./pages/admin/subscriber/ExpiredSubscriber";
 
 const AdminRoutes = [
   {
@@ -25,7 +23,7 @@ const AdminRoutes = [
         path: "subscribers",
         element: <SubscriberIndex />,
         children: [
-          { index: true, element: <AllSubscriber /> },
+          { index: true, element: <AllSubscribers /> },
           { path: "request", element: <RequestSubscriber /> },
           { path: "active", element: <ActiveSubscriber /> },
           { path: "expired", element: <ExpiredSubscriber /> },

@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 import Pagination from "../../../components/admin/Pagination";
 import UserDetails from "./UserDetails";
 import DetailsSidebar from "./DetailsSidebar";
-const AllSubscriber = () => {
+const AllSubscribers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { isLoading, data, isError, isSuccess, refetch } =
     useGetUserSubscription("", currentPage);
@@ -55,4 +55,4 @@ const AllSubscriber = () => {
   );
 };
 
-export default AllSubscriber;
+export default AllSubscribers;
