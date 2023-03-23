@@ -113,13 +113,15 @@ const CreateSubscription = () => {
               <section className="w-full">
                 <label
                   htmlFor="subscribeType"
-                  className="font-semibold my-2 block">
+                  className="font-semibold my-2 block"
+                >
                   Subscription Length Type
                 </label>
                 <select
                   id="subscribeType"
                   className="rounded-md py-1.5 px-4 border-stoke border-2 w-full bg-white"
-                  {...register("subscribeType")}>
+                  {...register("subscribeType")}
+                >
                   <option value="d" selected>
                     Day
                   </option>
@@ -147,7 +149,8 @@ const CreateSubscription = () => {
             <div>
               <section
                 className="rounded-md py-1.5 px-4 border-stoke border-2 w-full bg-white"
-                onClick={() => setChoosePlan(true)}>
+                onClick={() => setChoosePlan(true)}
+              >
                 Choose Plan
               </section>
               <p>{plans.length} Plan selected</p>
@@ -160,7 +163,8 @@ const CreateSubscription = () => {
             <button
               type="submit"
               onClick={() => console.log("clicked")}
-              className="btn-2 bg-dreamLabColor2 rounded-md font-medium py-2 my-8 flex items-center justify-center gap-x-3 w-full">
+              className="btn-2 bg-dreamLabColor2 rounded-md font-medium py-2 my-8 flex items-center justify-center gap-x-3 w-full"
+            >
               {createSubscriptionMutation.isLoading && (
                 <ClipLoader color="white" size={20} />
               )}
