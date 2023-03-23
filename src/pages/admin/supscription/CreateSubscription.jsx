@@ -14,17 +14,16 @@ import {
 import { ClipLoader } from "react-spinners";
 import ErrorMessage from "../../../components/form/ErrorMessage";
 
+export const SubscriptionSchema = yup.object({
+  name: yup.string().required(),
+  stackTitle: yup.string().required(),
+  originalPrice: yup.number().required(),
+  salePrice: yup.number().required(),
+  description: yup.string().required(),
+  subscribeLength: yup.number().required(),
+  subscribeType: yup.string().required(),
+});
 const CreateSubscription = () => {
-  const SubscriptionSchema = yup.object({
-    name: yup.string().required(),
-    stackTitle: yup.string().required(),
-    originalPrice: yup.number().required(),
-    salePrice: yup.number().required(),
-    description: yup.string().required(),
-    subscribeLength: yup.number().required(),
-    subscribeType: yup.string().required(),
-  });
-
   const [status, setStatus] = useState(false);
   const [choosePlan, setChoosePlan] = useState(false);
   const [plans, setPlans] = useState([]);
