@@ -20,7 +20,6 @@ const AdminRoutes = [
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
 
-=
       { path: "authors",
         children: [
           { index: true, element: <ArticleAuthors /> },
