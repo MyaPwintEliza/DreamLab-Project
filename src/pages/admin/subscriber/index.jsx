@@ -25,7 +25,7 @@ const SubscriberIndex = () => {
       <ul className="flex gap-6 mb-8">
         <Link
           to=""
-          className={`font-semibold text-[#8E98B0] text-lg ${
+          className={`font-semibold text-[#8e98b0] text-lg ${
             tempPathName[tempPathName.length - 1] === "subscribers"
               ? "!text-dreamLabColor1  border-b-4 border-dreamLabColor1"
               : null
@@ -33,25 +33,28 @@ const SubscriberIndex = () => {
         >
           All Subscribers
         </Link>
+        
         {allLinks.map((link) => (
           <CustomLink to={link.to} key={link.name}>
             {link.name}
           </CustomLink>
         ))}
+        
       </ul>
+      
       <ul className="grid grid-cols-12">
         {/* heading */}
-        <li className="col-span-3  text-[#8E98B0] font-semibold text-lg">
+        <li className="col-span-3  text-[#595959] font-semibold text-lg">
           Subscribers
         </li>
-        <li className="col-span-2  text-[#8E98B0] font-semibold ">Status</li>
-        <li className="col-span-3  text-[#8E98B0] font-semibold text-lg">
+        <li className="col-span-2  text-[#595959] font-semibold ">Status</li>
+        <li className="col-span-3  text-[#595959] font-semibold text-lg">
           Current Plan
         </li>
-        <li className="col-span-2  text-[#8E98B0] font-semibold text-lg">
+        <li className="col-span-2  text-[#595959] font-semibold text-lg">
           Purchase Date
         </li>
-        <li className="col-span-2  text-[#8E98B0] font-semibold text-lg">
+        <li className="col-span-2  text-[#595959] font-semibold text-lg">
           Action
         </li>
       </ul>

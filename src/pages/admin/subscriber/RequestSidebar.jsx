@@ -38,46 +38,46 @@ const RequestSidebar = ({
       onClick={() => setIsSidebarOpen(false)}
     >
       <div
-        className="max-w-[30rem] w-full bg-white h-full p-8"
+        className="max-w-[25rem] w-full bg-white h-full p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <section className="flex justify-between items-center mb-10">
           <h3 className="font-bold text-black text-2xl">Request Subscriber</h3>
           <AiOutlineClose size={25} onClick={() => setIsSidebarOpen(false)} />
         </section>
-        <ul>
+        <ul className="w-full items-center">
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Customer Name
             </span>
-            <span className="text-textColor1 font-medium">{customerName}</span>
+            <span className="text-slate-900 font-medium">{customerName}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Purchase Id
             </span>
-            <span className="text-textColor1 font-medium">{purchaseId}</span>
+            <span className="text-slate-900 font-medium">{purchaseId}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Purchase Date
             </span>
-            <span className="text-textColor1  font-medium">{startDate}</span>
+            <span className="text-slate-900  font-medium">{startDate}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Plan name
             </span>
-            <span className="text-textColor1 font-medium">{planName}</span>
+            <span className="text-slate-900 font-medium">{planName}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">Price</span>
-            <span className="text-textColor1 font-medium">{amount} Ks</span>
+            <span className="text-slate-900 font-medium">{amount} Ks</span>
           </li>
-          <label className="text-[#595959] font-medium ">bank slip photo</label>
+          <label className="text-slate-900 font-bold ">Bank Slip Image</label>
           {bankSlipImage ? (
             <img
-              className="mt-4 max-h-[15rem] object-cover"
+              className="mt-4 m-auto max-h-[15rem] object-cover"
               src={bankSlipImage ? bankSlipImage : ""}
               alt="bank slip image"
             />
@@ -87,9 +87,9 @@ const RequestSidebar = ({
             </div>
           )}
         </ul>
-        <div className="flex mt-6 justify-between gap-4">
+        <div className="flex mt-6 justify-between gap-6">
           <CustomButton
-            clsname="rounded-lg py-2 px-4 border border-[#EF0202] text-[#EF0202] w-1/2"
+            clsname="rounded-md py-1 px-3 border border-[#EF0202] text-[#EF0202] w-1/2"
             handleUpdate={() => handleUpdate("c")}
             isLoading={subscriberMutation.isLoading}
           >
@@ -97,7 +97,7 @@ const RequestSidebar = ({
           </CustomButton>
 
           <CustomButton
-            clsname="rounded-lg py-2 px-4 border btn_primary !w-1/2"
+            clsname="rounded-md py-1 px-3 border bg-dreamLabColor2  btn_primary w-1/2"
             handleUpdate={() => handleUpdate("a")}
             isLoading={subscriberMutation.isLoading}
           >

@@ -44,7 +44,7 @@ const UserDetails = ({ subscriber, setUserDetails, setIsSidebarOpen }) => {
 
   return (
     <>
-      <article className="grid grid-cols-12 border-b  py-6">
+      <article className="grid grid-cols-12 border-b border-[#e4e4e4]  py-6">
         <span className="col-span-3 text-textColor1 font-semibold">
           {user.displayName || user.email}
         </span>
@@ -55,10 +55,10 @@ const UserDetails = ({ subscriber, setUserDetails, setIsSidebarOpen }) => {
             {currentStatus.text}
           </span>
         </div>
-        <span className="col-span-3  text-[#8E98B0] font-semibold ">
+        <span className="col-span-3  text-textColor1 font-semibold ">
           {subscription.name}
         </span>
-        <span className="col-span-2  text-[#8E98B0] font-semibold ">
+        <span className="col-span-2  text-textColor1 font-semibold ">
           {startDate}
         </span>
         <span className="col-span-2 text-dreamLabColor1 font-semibold">

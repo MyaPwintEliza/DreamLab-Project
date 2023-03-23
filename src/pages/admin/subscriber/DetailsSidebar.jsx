@@ -32,7 +32,7 @@ const DetailsSidebar = ({ setIsSidebarOpen, userDetails }) => {
       onClick={() => setIsSidebarOpen(false)}
     >
       <div
-        className="max-w-[30rem] w-full bg-white h-full p-8"
+        className="max-w-[25rem] w-full bg-white h-full p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <section className="flex justify-between items-center mb-10">
@@ -44,13 +44,13 @@ const DetailsSidebar = ({ setIsSidebarOpen, userDetails }) => {
             <span className="text-[#595959] font-medium basis-1/2">
               Customer Name
             </span>
-            <span className="text-textColor1 font-medium">{customerName}</span>
+            <span className="text-slate-900 font-medium">{customerName}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Plan Status
             </span>
-            <span className={`${statusCls?.cls} font-medium`}>
+            <span className={`${statusCls?.cls} font-medium `}>
               {statusCls?.text}
             </span>
           </li>
@@ -58,25 +58,25 @@ const DetailsSidebar = ({ setIsSidebarOpen, userDetails }) => {
             <span className="text-[#595959] font-medium basis-1/2">
               Purchase Id
             </span>
-            <span className="text-textColor1 font-medium">{purchaseId}</span>
+            <span className="text-slate-900 font-medium">{purchaseId}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Expired Date
             </span>
-            <span className="text-textColor1 font-medium">{expiredDate}</span>
+            <span className="text-slate-900 font-medium">{expiredDate}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">
               Plan name
             </span>
-            <span className="text-textColor1 font-medium">{planName}</span>
+            <span className="text-slate-900 font-medium">{planName}</span>
           </li>
           <li className="flex items-center gap-4 mb-6">
             <span className="text-[#595959] font-medium basis-1/2">Price</span>
-            <span className="text-textColor1">{amount} Ks</span>
+            <span className="text-slate-900">{amount} Ks</span>
           </li>
-          <label className="text-[#595959] font-medium ">bank slip photo</label>
+          <label className="text-slate-900 font-bold ">Bank Slip Image</label>
           {bankSlipImage ? (
             <img
               className="mt-4 max-h-[20rem] object-cover"
