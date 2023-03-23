@@ -29,6 +29,27 @@ export const fetchSubscriptions = async () => {
   }
 };
 
+// fetch user scription
+export const fetchUserScription = async () => {
+  var requestOptions = {
+    mode: "cors",
+    method: "GET",
+    redirect: "follow",
+  };
+  try {
+    const response = await fetch(
+      `${API_ENDPOINT}subscriptions`,
+      requestOptions
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 //------- Get all subscriptions end -------//
 
 //------- Get single subscriptions start -------//
@@ -192,9 +213,14 @@ export const deleteSubscription = async (id) => {
 
 //------- User subscribe start -------//
 
-export const userSubscribe = async (id) => {
+export const userSubscribe = async (formData) => {
   const token = getToken();
+  // for (const [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
 
+  const id = formData.get("id").toString();
+  console.log(typeof id);
   const data = {
     subscriptionId: id,
     startDate: "2023-02-21",

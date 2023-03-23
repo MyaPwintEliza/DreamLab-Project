@@ -6,6 +6,7 @@ import Subscription from "./pages/admin/supscription";
 import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
 import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
+import Subscribers from "./pages/admin/subscriber";
 import Register from "./pages/admin/register";
 
 const AdminRoutes = [
@@ -16,10 +17,13 @@ const AdminRoutes = [
       { index: true, element: <Dashboard /> },
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
+      { path: "subscribers", element: <Subscribers /> },
+
       {
         path: "subscriptions",
         children: [
           { index: true, element: <Subscription /> },
+
           { path: "create", element: <CreateSubscription /> },
           { path: "edit/:id", element: <EditSubscription /> },
         ],
