@@ -25,7 +25,7 @@ const SupscriptionSchema = yup.object({
 });
 
 const payment = () => {
-  const userSubsciptionMutation = useUserSubscribe();
+  const userSubscriptionMutation = useUserSubscribe();
   const bankCards = [
     {
       img: KBZPAY,
@@ -74,11 +74,12 @@ const payment = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("id", id);
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("phone", data.phone);
+    console.log(bankSlip[0], bankSlip[0].name);
+    // formData.append("name", data.name);
+    // formData.append("email", data.email);
+    // formData.append("phone", data.phone);
     formData.append("bankSlip", bankSlip[0], bankSlip[0].name);
-    userSubsciptionMutation.mutate(formData);
+    userSubscriptionMutation.mutate(formData);
   };
   return (
     <section className="h-full flex flex-row">
@@ -225,11 +226,24 @@ const payment = () => {
                 </div>
               </div>
             </div>
+            {userSubscriptionMutation.isError ?? (
+              <p className="text-red-400">
+                {userSubscriptionMutation.error.message}
+              </p>
+            )}
             <button
               type="submit"
               className="mt-16 w-full btn bg-dreamLabColor2 p-3 rounded-md font-semibold text-center">
+              {userSubscriptionMutation.isLoading && (
+                <ClipLoader color="white" size={20} />
+              )}
               Buy Now
             </button>
+            {userSubscriptionMutation.isSuccess && (
+              <p className="text-green-400">
+                Your request was sent successfully
+              </p>
+            )}
           </form>
         </div>
       </div>
