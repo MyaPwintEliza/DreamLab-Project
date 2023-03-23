@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { USER_DATA_LOCAL_STORAGE } from "../hooks/useUserAuth";
-
+import { useNavigate } from "react-router-dom";
+import {
+  TOKEN_LOCAL_STORAGE,
+  USER_DATA_LOCAL_STORAGE,
+} from "../hooks/useUserAuth";
 const UserDataContext = createContext(false);
 
 export const useUserDataContext = () => {
@@ -24,8 +27,15 @@ export const UserDataProvider = ({ children }) => {
     refreshUserData();
   };
 
+  const adminLogout = () => {
+    localStorage.removeItem(TOKEN_LOCAL_STORAGE);
+    refreshUserData();
+    location.reload();
+  };
+
   return (
-    <UserDataContext.Provider value={{ user, refreshUserData, logOut }}>
+    <UserDataContext.Provider
+      value={{ user, refreshUserData, logOut, adminLogout }}>
       {children}
     </UserDataContext.Provider>
   );
