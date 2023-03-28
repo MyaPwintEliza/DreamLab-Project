@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdImages } from "react-icons/io";
 
-const ImageUpload = ({ label, uplaodImage, setUploadImage }) => {
+const ImageUpload = ({ label = "", uplaodImage, setUploadImage }) => {
   const [imgSrc, setImgSrc] = useState(null);
 
   if (uplaodImage != null) {
@@ -15,12 +15,12 @@ const ImageUpload = ({ label, uplaodImage, setUploadImage }) => {
   }
   return (
     <div>
-      <div className="border border-dashed mt-5 p-10 rounded-md">
+      <div className="border border-dashed mt-5 p-28  rounded-md">
         {uplaodImage ? (
           <div className="justify-center flex">
             <img
               src={imgSrc}
-              alt="Your bank slip"
+              alt="Your image"
               className="object-contain w-80 h-80"
             />
           </div>
@@ -30,7 +30,7 @@ const ImageUpload = ({ label, uplaodImage, setUploadImage }) => {
               onChange={(e) => {
                 if (e.target.files.length) {
                   setUploadImage(e.target.files);
-                  console.log(uplaodImage);
+                  // console.log(uplaodImage);
                 }
               }}
               required
@@ -46,7 +46,7 @@ const ImageUpload = ({ label, uplaodImage, setUploadImage }) => {
             <label
               for="file-upload"
               class="cursor-pointer bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600">
-              {label}
+              {label == "" ? null : `${label}`}
             </label>
           </div>
         )}

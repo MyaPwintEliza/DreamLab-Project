@@ -69,7 +69,6 @@ const ArticleItem = ({
           <button
             className="bg-dreamLabColor2 py-2 px-6 rounded-md"
             onClick={() => {
-              setId(`${article.id}`);
               setEditArticle(article);
               setEditStatus(true);
             }}>

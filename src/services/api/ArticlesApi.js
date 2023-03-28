@@ -17,10 +17,32 @@ export const fetchAdminArticles = async () => {
       requestOption
     );
     const data = await response.json();
-    console.log(`fetch data : ${data.items}`);
 
     if (!response.ok) throw new Error(data.message);
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createArticle = async (formData) => {
+  const token = getToken();
+  const requestOption = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    mode: "cors",
+    method: "POST",
+    body: formData,
+  };
+
+  try {
+    const res = await fetch(`${API_ENDPOINT}articles`, requestOption);
+    const result = await res.json();
+    console.log("Posted data ->" + result);
+
+    if (!res.ok) throw new Error(result.message);
+    return result;
   } catch (error) {
     throw error;
   }

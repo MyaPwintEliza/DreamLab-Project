@@ -1,46 +1,113 @@
-import React, { useState } from "react";
+import { RichTextEditor, Link } from "@mantine/tiptap";
+import { useEditor } from "@tiptap/react";
+import Highlight from "@tiptap/extension-highlight";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
+import { useEffect } from "react";
 
-function TextBox() {
-  const [content, setContent] = useState("");
+export function EditableTextBox({ value, setValue }) {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    editorProps: {
+      attributes: {
+        class: "h-[300px]",
+      },
+    },
+    content: value,
+  });
 
-  const handleInput = (e) => {
-    const { value, nodeName, tagName } = e.target;
-    const selection = window.getSelection();
+  // useEffect(() => {
+  //   if (!editor) {
+  //     return;
+  //   }
 
-    // Check if the user has selected text
-    if (!selection.isCollapsed) {
-      // Get the selected range
-      const range = selection.getRangeAt(0);
+  //   // const updateDescription = () => {
+  //   //   // const content = editor.getJSON(); // Get the content as JSON
+  //   //   const text = editor.getText(); // Get the content as plain text
+  //   //   setDescription(text);
+  //   //   console.log(first);
+  //   // };
 
-      // Create a new node with the desired format
-      const node = document.createElement(tagName);
-      node.appendChild(document.createTextNode(value));
-      node[nodeName] = value;
+  //   // editor.on("update", updateDescription);
 
-      // Replace the selected text with the new node
-      range.deleteContents();
-      range.insertNode(node);
+  //   // return () => {
+  //   //   editor.off("update", updateDescription);
+  //   // };
+  // }, [editor]);
 
-      // Update the selection to include the new node
-      const newRange = document.createRange();
-      newRange.setStart(node, 1);
-      newRange.setEnd(node, 1);
-      selection.removeAllRanges();
-      selection.addRange(newRange);
-    } else {
-      setContent(value);
-    }
+  const handleClick = () => {
+    const text = editor.getText();
+    setValue(text);
   };
 
+  // useEffect(() => {
+  //   console.log("updated => " + value);
+  // }, [value]);
+
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: content }}
-      contentEditable={true}
-      onInput={handleInput}
-      className="bg-red-100">
-      {content}
-    </div>
+    <RichTextEditor editor={editor}>
+      <RichTextEditor.Toolbar sticky stickyOffset={60}>
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Bold />
+          <RichTextEditor.Italic />
+          <RichTextEditor.Underline />
+          <RichTextEditor.Strikethrough />
+          <RichTextEditor.ClearFormatting />
+          <RichTextEditor.Highlight />
+          <RichTextEditor.Code />
+        </RichTextEditor.ControlsGroup>
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.H1 />
+          <RichTextEditor.H2 />
+          <RichTextEditor.H3 />
+          <RichTextEditor.H4 />
+          <RichTextEditor.H5 />
+          <RichTextEditor.H6 />
+        </RichTextEditor.ControlsGroup>
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Blockquote />
+          <RichTextEditor.Hr />
+          <RichTextEditor.BulletList />
+          <RichTextEditor.OrderedList />
+          <RichTextEditor.Subscript />
+          <RichTextEditor.Superscript />
+        </RichTextEditor.ControlsGroup>
+
+        {/* <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Link />
+          <RichTextEditor.Unlink />
+        </RichTextEditor.ControlsGroup> */}
+
+        <RichTextEditor.ControlsGroup>
+          <RichTextEditor.AlignLeft />
+          <RichTextEditor.AlignCenter />
+          <RichTextEditor.AlignJustify />
+          <RichTextEditor.AlignRight />
+        </RichTextEditor.ControlsGroup>
+
+        <RichTextEditor.ControlsGroup>
+          <button
+            className="bg-green-600 rounded-md p-1 text-white"
+            onClick={handleClick}>
+            Set Content
+          </button>
+        </RichTextEditor.ControlsGroup>
+      </RichTextEditor.Toolbar>
+
+      <RichTextEditor.Content />
+    </RichTextEditor>
   );
 }
-
-export default TextBox;
