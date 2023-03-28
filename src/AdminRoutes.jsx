@@ -21,20 +21,17 @@ const AdminRoutes = [
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
 
-
-      { path: "authors",
+      {
+        path: "authors",
         children: [
           { index: true, element: <ArticleAuthors /> },
           { path: "articleauthors", element: <ArticleAuthors /> },
           { path: "bookauthors", element: <BookAuthors /> },
         ],
       },
-      { path: "books",
-        children: [
-          { index: true, element: <Books /> },
-        ],
-      },
-      { path: "subscription",
+      { path: "books", children: [{ index: true, element: <Books /> }] },
+      {
+        path: "subscriptions",
         children: [
           { index: true, element: <Subscription /> },
 
