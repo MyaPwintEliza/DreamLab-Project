@@ -10,6 +10,7 @@ import Article from "./pages/admin/article";
 import Register from "./pages/admin/register";
 import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
 import BookAuthors from "./pages/admin/Authors/BookAuthors";
+import CreateArticle from "./pages/admin/article/CreateArticle";
 
 const AdminRoutes = [
   {
@@ -37,7 +38,13 @@ const AdminRoutes = [
           { path: "edit/:id", element: <EditSubscription /> },
         ],
       },
-      { path: "articles", element: <Article /> },
+      {
+        path: "articles",
+        children: [
+          { index: true, element: <Article /> },
+          { path: "create", element: <CreateArticle /> },
+        ],
+      },
     ],
   },
   {

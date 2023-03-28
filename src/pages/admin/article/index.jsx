@@ -7,6 +7,8 @@ import { ClipLoader } from "react-spinners";
 // import DeleteCategory from "./DeleteCategory";
 import { useArticlesData } from "../../../hooks/useArticles";
 import ArticleItem from "./ArticleItem";
+import { Link } from "react-router-dom";
+import { IoMdAddCircle } from "react-icons/io";
 
 const index = () => {
   const [createStatus, setCreateStatus] = useState(false);
@@ -32,14 +34,22 @@ const index = () => {
     return <h1>{error.message}</h1>;
   }
 
+  console.log(data.items);
+
   return (
     <article>
-      <AdminContentTitle
-        title="Uploaded Articles"
-        total={data.items.length}
-        setCreateStatus={setCreateStatus}
-        createTitle="Create Articles"
-      />
+      <section className="flex justify-between items-center">
+        <div className="flex justify-center items-center">
+          <h3 className="font-semibold text-2xl mr-5">Uploaded Articles</h3>
+          <p className="font-semibold">{`total : ${data.items.length}`}</p>
+        </div>
+        <Link
+          to={"/admin/articles/create"}
+          className="flex bg-dreamLabColor2 rounded-md btn-2 items-center py-2 px-10 gap-x-2">
+          <IoMdAddCircle />
+          Create Article
+        </Link>
+      </section>
       <article className="my-10">
         {data.items.map((article) => (
           <ArticleItem
