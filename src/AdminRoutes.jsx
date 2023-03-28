@@ -6,10 +6,11 @@ import Subscription from "./pages/admin/supscription";
 import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
 import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
+import Article from "./pages/admin/article";
 import Register from "./pages/admin/register";
 import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
 import BookAuthors from "./pages/admin/Authors/BookAuthors";
-import Books from "./pages/admin/Books";
+import CreateArticle from "./pages/admin/article/CreateArticle";
 
 const AdminRoutes = [
   {
@@ -19,6 +20,7 @@ const AdminRoutes = [
       { index: true, element: <Dashboard /> },
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
+
 
       { path: "authors",
         children: [
@@ -38,6 +40,13 @@ const AdminRoutes = [
 
           { path: "create", element: <CreateSubscription /> },
           { path: "edit/:id", element: <EditSubscription /> },
+        ],
+      },
+      {
+        path: "articles",
+        children: [
+          { index: true, element: <Article /> },
+          { path: "create", element: <CreateArticle /> },
         ],
       },
     ],
