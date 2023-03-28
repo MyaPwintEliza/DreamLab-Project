@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import AuthorItem from "../AuthorItem";
 import CreateBookAuthor from "../CreateAuthor";
 import EditBookAuthor from "../EditAuthor";
-import { useBookAuthorsData, useUpdateBookAuthor, useCreateBookAuthor, useDeleteBookAuthor } from "../../../../hooks/useAuthors";
+import {
+  useBookAuthorsData,
+  useUpdateBookAuthor,
+  useCreateBookAuthor,
+  useDeleteBookAuthor,
+} from "../../../../hooks/useAuthors";
 import DeleteBookAuthor from "../DeleteAuthor";
 import { ClipLoader } from "react-spinners";
 import { Link } from "react-router-dom";
@@ -13,10 +18,14 @@ const index = () => {
   const [editStatus, setEditStatus] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState(false);
   const [id, setId] = useState("");
-  const [editAuthor, setEditAuthor] = useState({ status: "", name: "", id: "" });
+  const [editAuthor, setEditAuthor] = useState({
+    status: "",
+    name: "",
+    id: "",
+  });
 
   const { isLoading, isError, error, data, refetch } = useBookAuthorsData();
-  console.log('book data: ', data);
+  console.log("book data: ", data);
 
   const refreshData = () => {
     refetch();
@@ -38,33 +47,37 @@ const index = () => {
     <article>
       <div className="flex justify-between">
         <div className="flex">
-        <Link to={`/admin/authors/articleauthors`} className="flex items-center p-2">
-          Article Authors
+          <Link
+            to={`/admin/authors/articleauthors`}
+            className="flex items-center p-2">
+            Article Authors
           </Link>
-        <Link to={`/admin/authors/bookauthors`} className="flex items-center p-2 text-dreamLabColor1 border-b-4">
-          Book Authors
-        </Link>
+          <Link
+            to={`/admin/authors/bookauthors`}
+            className="flex items-center p-2 text-dreamLabColor1 border-b-4">
+            Book Authors
+          </Link>
+        </div>
+        <button
+          className="flex bg-dreamLabColor2 items-center py-2 px-10 gap-x-2 rounded-md"
+          onClick={() => setCreateStatus(true)}>
+          <IoMdAddCircle />
+          Create Author
+        </button>
       </div>
-      <button
-        className="flex bg-dreamLabColor2 items-center py-2 px-10 gap-x-2 rounded-md"
-        onClick={() => setCreateStatus(true)}
-      >
-        <IoMdAddCircle />
-        Create Author
-      </button>
-      </div>
-      
+
       <article className="my-10">
         {data.map((author) => {
           return (
-          <AuthorItem
-            author={author}
-            setId={setId}
-            setEditStatus={setEditStatus}
-            setDeleteStatus={setDeleteStatus}
-            setEditAuthor={setEditAuthor}
-          />
-        )})}
+            <AuthorItem
+              author={author}
+              setId={setId}
+              setEditStatus={setEditStatus}
+              setDeleteStatus={setDeleteStatus}
+              setEditAuthor={setEditAuthor}
+            />
+          );
+        })}
       </article>
       <CreateBookAuthor
         createStatus={createStatus}

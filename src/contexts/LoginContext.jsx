@@ -12,6 +12,7 @@ export const LoginProvider = ({ children }) => {
 
   const changeStatus = () => {
     setStatus(!status);
+    console.log(status);
   };
 
   return (
