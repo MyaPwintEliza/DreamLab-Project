@@ -32,6 +32,7 @@ const UserLogin = () => {
   useEffect(() => {
     if (userLoginMutation.isSuccess) {
       changeStatus();
+      location.reload();
     }
   }, [userLoginMutation.isSuccess]);
 
