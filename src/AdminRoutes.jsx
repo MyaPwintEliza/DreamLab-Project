@@ -11,6 +11,7 @@ import Register from "./pages/admin/register";
 import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
 import BookAuthors from "./pages/admin/Authors/BookAuthors";
 import CreateArticle from "./pages/admin/article/CreateArticle";
+import Books from "./pages/admin/Books";
 
 const AdminRoutes = [
   {
