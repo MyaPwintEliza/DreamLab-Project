@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import {
   TOKEN_LOCAL_STORAGE,
   USER_DATA_LOCAL_STORAGE,
@@ -19,6 +19,7 @@ export const UserDataProvider = ({ children }) => {
 
   const refreshUserData = () => {
     setUser(JSON.parse(localStorage.getItem(USER_DATA_LOCAL_STORAGE)));
+    location.reload();
   };
 
   const logOut = () => {

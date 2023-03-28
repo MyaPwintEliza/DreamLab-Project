@@ -6,7 +6,7 @@ import {
   useSubscriptionData,
   useUserSubscribe,
 } from "../../../hooks/useSubscriptions";
-import { ClipLoader } from "react-spinners";
+import { ClimbingBoxLoader, ClipLoader } from "react-spinners";
 import AYAPAY from "../../../assets/AYAPAY.png";
 import WAVEPAY from "../../../assets/WAVEPAY.png";
 import KBZ from "../../../assets/KBZ.png";
@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import InputForm from "../../../components/form/InputForm";
 import { IoMdImages } from "react-icons/io";
+import ImageUpload from "../../../components/form/imageUpload";
 
 const SupscriptionSchema = yup.object({
   name: yup.string().required(),
@@ -81,6 +82,7 @@ const payment = () => {
     formData.append("bankSlip", bankSlip[0], bankSlip[0].name);
     userSubscriptionMutation.mutate(formData);
   };
+
   return (
     <section className="h-full flex flex-row">
       {/* left */}
@@ -200,31 +202,11 @@ const payment = () => {
               <label htmlFor="ငွေလွှဲပြေစာ" className="font-semibold">
                 ငွေလွှဲပြေစာ
               </label>
-              <div className="border border-dashed mt-5 p-10 rounded-md ">
-                <div class="relative flex flex-col items-center">
-                  <input
-                    onChange={(e) => {
-                      if (e.target.files.length) {
-                        setBankSlip(e.target.files);
-                      }
-                    }}
-                    required
-                    accept="image/*"
-                    type="file"
-                    class="bg-black w-full op absolute opacity-0"
-                  />
-                  <IoMdImages
-                    label="Choose file"
-                    labelPosition="before"
-                    size={35}></IoMdImages>
-
-                  <label
-                    for="file-upload"
-                    class="cursor-pointer bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600">
-                    Upload Your Bank Slip here
-                  </label>
-                </div>
-              </div>
+              <ImageUpload
+                uplaodImage={bankSlip}
+                setUploadImage={setBankSlip}
+                label="Upload your bank slip here"
+              />
             </div>
             {userSubscriptionMutation.isError ?? (
               <p className="text-red-400">
@@ -233,7 +215,7 @@ const payment = () => {
             )}
             <button
               type="submit"
-              className="mt-16 w-full btn bg-dreamLabColor2 p-3 rounded-md font-semibold text-center">
+              className="mt-14  w-full btn bg-dreamLabColor2 p-3 rounded-md font-semibold text-center">
               {userSubscriptionMutation.isLoading && (
                 <ClipLoader color="white" size={20} />
               )}
