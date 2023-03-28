@@ -29,8 +29,12 @@ const AdminRoutes = [
           { path: "bookauthors", element: <BookAuthors /> },
         ],
       },
-      {
-        path: "subscriptions",
+      { path: "books",
+        children: [
+          { index: true, element: <Books /> },
+        ],
+      },
+      { path: "subscription",
         children: [
           { index: true, element: <Subscription /> },
 
