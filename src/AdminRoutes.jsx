@@ -2,11 +2,16 @@ import AdminLayout from "./layouts/admin/AdminLayout";
 import Dashboard from "./pages/admin/dashboard";
 import Plan from "./pages/admin/plan";
 import Category from "./pages/admin/category";
-import Subscription from "./pages/admin/supscription";
-import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
-import EditSubscription from "./pages/admin/supscription/EditSubscription";
+import Subscription from "./pages/admin/subscription";
+import CreateSubscription from "./pages/admin/subscription/CreateSubscription";
+import EditSubscription from "./pages/admin/subscription/EditSubscription";
 import Login from "./pages/admin/login";
 import Article from "./pages/admin/article";
+import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
+import BookAuthors from "./pages/admin/Authors/BookAuthors";
+import CreateArticle from "./pages/admin/article/CreateArticle";
+import EditArticle from "./pages/admin/article/EditArticle";
+import Books from "./pages/admin/Books";
 import Register from "./pages/admin/register";
 import SubscriberIndex from "./pages/admin/subscriber";
 import AllSubscribers from "./pages/admin/subscriber/AllSubscribers";
@@ -57,6 +62,10 @@ const AdminRoutes = [
           { path: "create", element: <CreateArticle /> },
           { path: "edit/:slug", element: <EditArticle /> },
         ],
+      },
+      {
+        path: "books",
+        children: [{ index: true, element: <Books /> }],
       },
     ],
   },

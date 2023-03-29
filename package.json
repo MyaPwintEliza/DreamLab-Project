@@ -33,6 +33,7 @@
     "react-icons": "^4.7.1",
     "react-paginate": "^8.1.4",
     "react-router-dom": "^6.8.2",
+    "react-select": "^5.7.1",
     "react-spinners": "^0.13.8",
     "react-switch": "^7.0.0",
     "yup": "^1.0.2"
