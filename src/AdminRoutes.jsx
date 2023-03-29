@@ -8,10 +8,11 @@ import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
 import Article from "./pages/admin/article";
 import Register from "./pages/admin/register";
-import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
-import BookAuthors from "./pages/admin/Authors/BookAuthors";
-import CreateArticle from "./pages/admin/article/CreateArticle";
-import EditArticle from "./pages/admin/article/EditArticle";
+import SubscriberIndex from "./pages/admin/subscriber";
+import AllSubscribers from "./pages/admin/subscriber/AllSubscribers";
+import RequestSubscriber from "./pages/admin/subscriber/RequestSubscriber";
+import ActiveSubscriber from "./pages/admin/subscriber/ActiveSubscribers";
+import ExpiredSubscriber from "./pages/admin/subscriber/ExpiredSubscriber";
 
 const AdminRoutes = [
   {
@@ -22,6 +23,16 @@ const AdminRoutes = [
       { path: "plans", element: <Plan /> },
       { path: "categories", element: <Category /> },
 
+      {
+        path: "subscribers",
+        element: <SubscriberIndex />,
+        children: [
+          { index: true, element: <AllSubscribers /> },
+          { path: "request", element: <RequestSubscriber /> },
+          { path: "active", element: <ActiveSubscriber /> },
+          { path: "expired", element: <ExpiredSubscriber /> },
+        ],
+      },
       {
         path: "authors",
         children: [

@@ -34,7 +34,8 @@ const index = () => {
         <h3 className="font-semibold text-2xl">Subscription Plans List</h3>
         <Link
           to={"/admin/subscriptions/create"}
-          className="flex bg-dreamLabColor2 rounded-md btn-2 items-center py-2 px-10 gap-x-2">
+          className="flex bg-dreamLabColor2 rounded-md btn-2 items-center py-2 px-10 gap-x-2"
+        >
           <IoMdAddCircle />
           Create Subscription
         </Link>

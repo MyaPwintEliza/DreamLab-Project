@@ -67,7 +67,7 @@ const CreateSubscription = () => {
   return (
     <section>
       <div className="flex">
-        <div className="w-2/5 ml-10  mt-10">
+        <div className="w-3/5 ml-10  mt-10">
           <CreatePageTitle title="Create Subscription" />
 
           <form onSubmit={handleSubmit(onSubmit, onError)} className="my-10">
