@@ -9,11 +9,12 @@ import { useArticlesData } from "../../../hooks/useArticles";
 import ArticleItem from "./ArticleItem";
 import { Link } from "react-router-dom";
 import { IoMdAddCircle } from "react-icons/io";
+import EditArticle from "./EditArticle";
 
 const index = () => {
-  const [createStatus, setCreateStatus] = useState(false);
+  const [id, setId] = useState(0);
   const [editStatus, setEditStatus] = useState(false);
-  const [deleteStatus, setDeleteStatus] = useState(false);
+
   const [editArticle, setEditArticle] = useState(null);
 
   const { isLoading, isError, error, data, refetch } = useArticlesData();
@@ -52,13 +53,7 @@ const index = () => {
       </section>
       <article className="my-10">
         {data.items.map((article) => (
-          <ArticleItem
-            key={article.slug}
-            article={article}
-            setEditArticle={setEditArticle}
-            setEditStatus={setEditStatus}
-            setDeleteStatus={setDeleteStatus}
-          />
+          <ArticleItem key={article.slug} article={article} />
         ))}
       </article>
       {/* <CreateCategory
@@ -66,12 +61,7 @@ const index = () => {
         setCreateStatus={setCreateStatus}
         refreshData={refreshData}
       />
-      <EditCategory
-        editStatus={editStatus}
-        editCategory={editCategory}
-        setEditStatus={setEditStatus}
-        refreshData={refreshData}
-      />
+      
 
       <DeleteCategory
         id={id}

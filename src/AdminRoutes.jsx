@@ -11,6 +11,7 @@ import Register from "./pages/admin/register";
 import ArticleAuthors from "./pages/admin/Authors/ArticleAuthors";
 import BookAuthors from "./pages/admin/Authors/BookAuthors";
 import CreateArticle from "./pages/admin/article/CreateArticle";
+import EditArticle from "./pages/admin/article/EditArticle";
 
 const AdminRoutes = [
   {
@@ -43,6 +44,7 @@ const AdminRoutes = [
         children: [
           { index: true, element: <Article /> },
           { path: "create", element: <CreateArticle /> },
+          { path: "edit/:slug", element: <EditArticle /> },
         ],
       },
     ],
