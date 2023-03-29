@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsArrowLeft } from "react-icons/bs";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ReactSwitch from "react-switch";
 import { EditableTextBox } from "../../../components/form/EditableTextBox";
 import ImageUpload from "../../../components/form/imageUpload";
 import InputForm from "../../../components/form/InputForm";
 import Select from "../../../components/form/Select";
+import { useGetOneArticle, useUpdateArticle } from "../../../hooks/useArticles";
 import { useArticleAuthorsData } from "../../../hooks/useAuthors";
 import { useCategoriesData } from "../../../hooks/useCategories";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateArticle } from "../../../hooks/useArticles";
-import { Link } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
-const CreateArticle = () => {
+
+const EditArticle = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading } = useCategoriesData();
-  const { data: authorData, isLoading: authorLoading } =
-    useArticleAuthorsData();
+  const {
+    data: authorData,
+    isLoading: authorLoading,
+    refetch,
+  } = useArticleAuthorsData();
 
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("Type Article Description");
@@ -31,7 +37,10 @@ const CreateArticle = () => {
   const [selectAuthId, setSelectAuthId] = useState([]);
   const [selectCatId, setSelectCatId] = useState([]);
 
-  const createArticleSchema = yup.object({
+  const { data: ArticleData, isSuccess } = useGetOneArticle(slug);
+  const updateArticleMutation = useUpdateArticle();
+
+  const editArticleSchema = yup.object({
     title: yup.string().required(),
     readingTime: yup.number().required(),
   });
@@ -40,10 +49,8 @@ const CreateArticle = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm({ resolver: yupResolver(createArticleSchema) });
-
-  const cretateArticleMutation = useCreateArticle();
+    setValue,
+  } = useForm({ resolver: yupResolver(editArticleSchema) });
 
   if (isLoading || authorLoading) {
     return (
@@ -52,11 +59,11 @@ const CreateArticle = () => {
       </article>
     );
   }
+
   const onError = (errors, e) => console.log("errors :" + errors, e);
   const onSubmit = (data) => {
     const catIdAry = JSON.stringify(selectCatId);
     const authIdAry = JSON.stringify(selectAuthId);
-
     let isFree, isActive;
 
     if (status.free) {
@@ -70,9 +77,10 @@ const CreateArticle = () => {
     } else {
       isActive = "p";
     }
+
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("readingTime", data.readingTime.toString() + " " + "min");
+    formData.append("readingTime", data.readingTime.toString() + " min");
     formData.append("shortDesc", description);
     formData.append("content", content);
     formData.append("mainImage", image[0], image[0].name);
@@ -80,13 +88,40 @@ const CreateArticle = () => {
     formData.append("articleAuthors", authIdAry);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
-
     // for (const pair of formData.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
-
-    cretateArticleMutation.mutate(formData);
+    updateArticleMutation.mutate({ formData, id: ArticleData.id });
   };
+
+  useEffect(() => {
+    if (updateArticleMutation.isSuccess) {
+      navigate("/admin/articles");
+    }
+  }, [updateArticleMutation.isSuccess]);
+  useEffect(() => {
+    if (isSuccess) {
+      setValue("title", ArticleData.title);
+      setValue("readingTime", ArticleData.readingTime);
+      setValue("shortDesc", ArticleData.shortDesc);
+      setValue("content", ArticleData.content);
+      setValue("mainImage", ArticleData.mainImage);
+      setValue("categories", ArticleData.catIdAry);
+      setValue("articleAuthors", ArticleData.authIdAry);
+
+      if (ArticleData.status) {
+        setStatus({ free: ArticleData.isFree, active: true });
+      } else {
+        setStatus({ free: ArticleData.isFree, active: false });
+      }
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (updateArticleMutation.isSuccess) {
+      refetch();
+    }
+  }, [updateArticleMutation.isSuccess]);
   return (
     <section>
       <div className="w-1/4 flex justify-between items- mb-10">
@@ -97,7 +132,7 @@ const CreateArticle = () => {
           <p className="ml-3 text-dreamLabColor1">Back</p>
         </Link>
 
-        <h3 className="font-bold text-xl">Create Article</h3>
+        <h3 className="font-bold text-xl">Update Article</h3>
       </div>
       <div className="flex flex-col">
         <form
@@ -175,21 +210,21 @@ const CreateArticle = () => {
           <div className="col-span-10 mt-5 ">
             <EditableTextBox value={content} setValue={setContent} />
           </div>
-          {cretateArticleMutation.isError ?? (
+          {updateArticleMutation.isError ?? (
             <p className="text-red-400">
-              {cretateArticleMutation.error.message}
+              {updateArticleMutation.error.message}
             </p>
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"
             type="submit">
-            {cretateArticleMutation.isLoading && (
+            {updateArticleMutation.isLoading && (
               <ClipLoader color="white" size={20} />
             )}
-            Create
+            Save
           </button>
-          {cretateArticleMutation.isSuccess ?? (
-            <p className="text-green-600">Request sent successfully</p>
+          {updateArticleMutation.isSuccess ?? (
+            <p className="text-green-600">Edit request sent successfully</p>
           )}
         </form>
       </div>
@@ -197,4 +232,4 @@ const CreateArticle = () => {
   );
 };
 
-export default CreateArticle;
+export default EditArticle;

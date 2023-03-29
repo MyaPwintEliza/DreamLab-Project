@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-function Select({ label, options, setOptions, defaultValues, errors }) {
+function Select({
+  label,
+  options,
+  setOptions,
+  defaultValues,
+  errors,
+  id,
+  setId,
+}) {
   //   const [inputValue, setInputValue] = useState("");
 
   //   const handleInputChange = (event) => {
@@ -28,11 +36,15 @@ function Select({ label, options, setOptions, defaultValues, errors }) {
   const handleOnChange = (e) => {
     const selectedOption = e.target.value;
     if (selectedOption !== "") {
-      // const option = defaultValues.find((o) => o.name === selectedOption);
+      const option = defaultValues.find((o) => o.name === selectedOption);
       setOptions([...options, selectedOption]);
-      // setId([...id, option.id]);
+      setId([...id, option.id]);
     }
   };
+
+  useEffect(() => {
+    console.log("id -->" + id);
+  }, [id]);
 
   const handleRemoveOption = (option) => {
     setOptions(options.filter((o) => o !== option));

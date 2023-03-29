@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoMdImages } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { ClipLoader } from "react-spinners";
 import InputForm from "../../../components/form/InputForm";
 import { useUpdateCategory } from "../../../hooks/useCategories";
@@ -13,6 +14,7 @@ const EditCategory = ({
   setEditStatus,
   refreshData,
 }) => {
+  const navigate = useNavigate();
   const updateCategoryMutation = useUpdateCategory();
 
   const [icon, setIcon] = useState(null);
@@ -43,6 +45,12 @@ const EditCategory = ({
     setValue("icon", editCategory?.icon);
     setValue("name", editCategory?.name);
   }, [editCategory]);
+
+  useEffect(() => {
+    if (updateCategoryMutation.isSuccess) {
+      navigate("/admin/categories");
+    }
+  }, [updateCategoryMutation.isSuccess]);
 
   useEffect(() => {
     if (updateCategoryMutation.isSuccess) {

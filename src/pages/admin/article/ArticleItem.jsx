@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { GiCutDiamond } from "react-icons/gi";
+import { IoMdAddCircle } from "react-icons/io";
+import { Link } from "react-router-dom";
 
-const ArticleItem = ({
-  article,
-  setEditStatus,
-  setEditArticle,
-  setDeleteStatus,
-}) => {
+const ArticleItem = ({ article }) => {
   const { articleAuthors, status, categories, isFree } = article;
   const [currentStatus, setStatus] = useState({ bg: "", text: "" });
-  const [currentIsFreeStatus, setCurrentIsFreeStatus] = useState("");
   console.log(isFree);
   const handleStatus = () => {
     if (status === "a") {
@@ -66,22 +62,21 @@ const ArticleItem = ({
         </div>
 
         <div className="flex gap-x-5">
-          <button
-            className="bg-dreamLabColor2 py-2 px-6 rounded-md"
-            onClick={() => {
-              setEditArticle(article);
-              setEditStatus(true);
-            }}>
-            Edit
-          </button>
-          <button
+          <Link
+            to={`/admin/articles/edit/${article.slug}`}
+            className="flex bg-dreamLabColor2 rounded-md btn-2 items-center py-2 px-10 gap-x-2">
+            <IoMdAddCircle />
+            Edit Article
+          </Link>
+
+          {/* <button
             className="text-red-600 font-medium rounded-md"
             onClick={() => {
               setId(article.id);
               setDeleteStatus(true);
             }}>
             Delete
-          </button>
+          </button> */}
         </div>
       </section>
     </div>
