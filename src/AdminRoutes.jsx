@@ -1,10 +1,12 @@
 import AdminLayout from "./layouts/admin/AdminLayout";
 import Dashboard from "./pages/admin/dashboard";
 import Plan from "./pages/admin/plan";
-import Subscription from "./pages/admin/subscription";
-import CreateSubscription from "./pages/admin/subscription/CreateSubscription";
-import EditSubscription from "./pages/admin/subscription/EditSubscription";
+import Category from "./pages/admin/category";
+import Subscription from "./pages/admin/supscription";
+import CreateSubscription from "./pages/admin/supscription/CreateSubscription";
+import EditSubscription from "./pages/admin/supscription/EditSubscription";
 import Login from "./pages/admin/login";
+import Article from "./pages/admin/article";
 import Register from "./pages/admin/register";
 import SubscriberIndex from "./pages/admin/subscriber";
 import AllSubscribers from "./pages/admin/subscriber/AllSubscribers";
@@ -19,6 +21,8 @@ const AdminRoutes = [
     children: [
       { index: true, element: <Dashboard /> },
       { path: "plans", element: <Plan /> },
+      { path: "categories", element: <Category /> },
+
       {
         path: "subscribers",
         element: <SubscriberIndex />,
@@ -30,11 +34,28 @@ const AdminRoutes = [
         ],
       },
       {
-        path: "subscription",
+        path: "authors",
+        children: [
+          { index: true, element: <ArticleAuthors /> },
+          { path: "articleauthors", element: <ArticleAuthors /> },
+          { path: "bookauthors", element: <BookAuthors /> },
+        ],
+      },
+      {
+        path: "subscriptions",
         children: [
           { index: true, element: <Subscription /> },
+
           { path: "create", element: <CreateSubscription /> },
           { path: "edit/:id", element: <EditSubscription /> },
+        ],
+      },
+      {
+        path: "articles",
+        children: [
+          { index: true, element: <Article /> },
+          { path: "create", element: <CreateArticle /> },
+          { path: "edit/:slug", element: <EditArticle /> },
         ],
       },
     ],

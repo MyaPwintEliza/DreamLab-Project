@@ -15,9 +15,11 @@ import {
   RiArticleLine,
 } from "react-icons/ri";
 import AdminSidebarLink from "./AdminSidebarLink";
+import { useUserDataContext } from "../../contexts/UserDataContext";
 // import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const { adminLogout } = useUserDataContext();
   function useDropdown() {
     const [dropdown, setDropdown] = useState({
       manage: false,
@@ -100,7 +102,7 @@ const Sidebar = () => {
             </li>
             <li>
               <AdminSidebarLink
-                to="/subscription"
+                to="/subscriptions"
                 icon={<RiVipCrownLine className="w-full h-full" />}
                 title="Subscription Plan"
               />
@@ -193,7 +195,7 @@ const Sidebar = () => {
                   title="Subscriber"
                 />
                 <AdminSidebarLink
-                  to="/subscription"
+                  to="/subscriptions"
                   icon={<RiVipCrownLine className="w-full h-full" />}
                   title="Subscription Plan"
                 />
@@ -203,6 +205,7 @@ const Sidebar = () => {
             <hr className={customStyles["border-top"]} />
             <li className={customStyles["dropdown-title-wrapper"]}>
               <button
+                onClick={adminLogout}
                 className={`${customStyles["sidebar-header"]} flex items-center gap-x-2`}>
                 <BiLogOut size={25} />
                 LogOut

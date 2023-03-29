@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Switch from "react-switch";
 import CreatePageTitle from "../../../components/admin/CreatePageTitle";
 import InputForm from "../../../components/form/InputForm";
@@ -23,7 +23,6 @@ export const SubscriptionSchema = yup.object({
   subscribeLength: yup.number().required(),
   subscribeType: yup.string().required(),
 });
-
 const CreateSubscription = () => {
   const [status, setStatus] = useState(false);
   const [choosePlan, setChoosePlan] = useState(false);
@@ -41,16 +40,21 @@ const CreateSubscription = () => {
   });
 
   const onSubmit = async (data) => {
-    if (status) {
-      data["status"] = "a";
-    } else {
-      data["status"] = "p";
+    try {
+      console.log(data);
+      if (status) {
+        data["status"] = "a";
+      } else {
+        data["status"] = "p";
+      }
+      data["plans"] = plans;
+      createSubscriptionMutation.mutate(data);
+    } catch (error) {
+      console.log(error.message);
     }
-    data["plans"] = plans;
-    createSubscriptionMutation.mutate(data);
   };
 
-   const onError = (errors, e) => console.log(errors, e);
+  const onError = (errors, e) => console.log(errors, e);
 
   const removePlanMutation = useRemovePlan();
 
@@ -157,8 +161,9 @@ const CreateSubscription = () => {
               />
             )}
             <button
-              className="btn-2 bg-dreamLabColor2 rounded-md font-medium py-2 my-8 flex items-center justify-center gap-x-3 w-full"
               type="submit"
+              onClick={() => console.log("clicked")}
+              className="btn-2 bg-dreamLabColor2 rounded-md font-medium py-2 my-8 flex items-center justify-center gap-x-3 w-full"
             >
               {createSubscriptionMutation.isLoading && (
                 <ClipLoader color="white" size={20} />

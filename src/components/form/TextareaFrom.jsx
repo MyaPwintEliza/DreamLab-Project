@@ -13,7 +13,7 @@ const TextareaForm = ({ register, title, name, row = 7, placeholder }) => {
         className="rounded-md py-1.5 px-4 border-stoke border-2 w-full"
         placeholder={placeholder}
       ></textarea>
-    </section> 
+    </section>
   );
 };
 

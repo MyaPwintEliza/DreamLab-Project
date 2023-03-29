@@ -10,10 +10,15 @@ import {
   userSubscribe,
   fetchSubscribers,
   userSubscriptionUpdate,
+  fetchUserScription,
 } from "../services/api/SubscriptionsApi";
 
 export const useSubscriptionsData = () => {
   return useQuery(["subscriptions"], fetchSubscriptions);
+};
+
+export const useUserSubsciption = () => {
+  return useQuery(["subscriptionsForUser"], fetchUserScription);
 };
 
 export const useSubscriptionData = (id) => {

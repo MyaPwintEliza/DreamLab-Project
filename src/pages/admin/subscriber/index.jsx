@@ -33,15 +33,14 @@ const SubscriberIndex = () => {
         >
           All Subscribers
         </Link>
-        
+
         {allLinks.map((link) => (
           <CustomLink to={link.to} key={link.name}>
             {link.name}
           </CustomLink>
         ))}
-        
       </ul>
-      
+
       <ul className="grid grid-cols-12">
         {/* heading */}
         <li className="col-span-3  text-[#595959] font-semibold text-lg">

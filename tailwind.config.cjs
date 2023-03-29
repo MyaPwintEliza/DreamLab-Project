@@ -10,6 +10,7 @@ module.exports = {
       myanmar: ["Noto Sans Myanmar"],
     },
     colors: {
+      transparent: "transparent",
       red: colors.red,
       green: colors.green,
       yellow: colors.yellow,
