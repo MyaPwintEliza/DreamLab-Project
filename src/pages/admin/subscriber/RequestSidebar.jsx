@@ -97,7 +97,7 @@ const RequestSidebar = ({
           </CustomButton>
 
           <CustomButton
-            clsname="rounded-md py-1 px-3 border bg-dreamLabColor2  btn_primary w-1/2"
+            clsname="rounded-md py-1 px-3 border border-dreamLabColor2 bg-dreamLabColor2  btn_primary w-1/2"
             handleUpdate={() => handleUpdate("a")}
             isLoading={subscriberMutation.isLoading}
           >
