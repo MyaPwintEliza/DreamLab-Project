@@ -16,7 +16,6 @@ export const fetchCategories = async () => {
   try {
     const response = await fetch(`${API_ENDPOINT}categories`, requestOption);
     const data = await response.json();
-    console.log(data);
 
     if (!response.ok) throw new Error(data.message);
     return data;
@@ -66,7 +65,6 @@ export const createCategory = async (data) => {
   try {
     const response = await fetch(`${API_ENDPOINT}categories`, requestOption);
     const data = await response.json();
-    console.log(data);
 
     if (!response.ok) throw new Error(data.message);
     return data;

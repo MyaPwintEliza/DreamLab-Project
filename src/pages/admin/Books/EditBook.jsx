@@ -1,26 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsArrowLeft } from "react-icons/bs";
+import { Link, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ReactSwitch from "react-switch";
 import { EditableTextBox } from "../../../components/form/EditableTextBox";
 import ImageUpload from "../../../components/form/imageUpload";
 import InputForm from "../../../components/form/InputForm";
 import Select from "../../../components/form/Select";
-import { useArticleAuthorsData } from "../../../hooks/useAuthors";
+import { useGetOneBook, useUpdateBook } from "../../../hooks/useBooks";
+import { useBookAuthorsData } from "../../../hooks/useAuthors";
 import { useCategoriesData } from "../../../hooks/useCategories";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateArticle } from "../../../hooks/useArticles";
-import { Link } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
-const CreateArticle = () => {
-  const { data, isLoading } = useCategoriesData();
-  const { data: authorData, isLoading: authorLoading } =
-    useArticleAuthorsData();
 
+const EditBook= () => {
+  const { slug } = useParams();
+  // const navigate = useNavigate();
+  const { data: catagoriesData, isLoading: catLoading } = useCategoriesData();
+  const {
+    data: authorData,
+    isLoading: authorLoading,
+    // refetch,
+  } = useBookAuthorsData();
+  const { data: BookData, isSuccess } = useGetOneBook(slug);
+  const updateBookMutation = useUpdateBook();
+  
   const [image, setImage] = useState(null);
-  const [description, setDescription] = useState("Type Article Description");
-  const [content, setContent] = useState("Type Content Description");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
   const [selectAuthors, setSelectAuthors] = useState([]);
   const [selectCategories, setSelectCategories] = useState([]);
   const [status, setStatus] = useState({
@@ -31,7 +39,8 @@ const CreateArticle = () => {
   const [selectAuthId, setSelectAuthId] = useState([]);
   const [selectCatId, setSelectCatId] = useState([]);
 
-  const createArticleSchema = yup.object({
+
+  const editBookSchema = yup.object({
     title: yup.string().required(),
     readingTime: yup.number().required(),
   });
@@ -40,23 +49,45 @@ const CreateArticle = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm({ resolver: yupResolver(createArticleSchema) });
+    setValue,
+  } = useForm({ resolver: yupResolver(editBookSchema) });
 
-  const cretateArticleMutation = useCreateArticle();
-
-  if (isLoading || authorLoading) {
+  if (catLoading || authorLoading) {
     return (
       <article className="flex items-center justify-center h-screen">
         <ClipLoader />
       </article>
     );
   }
-  const onError = (errors, e) => console.log("errors :" + errors, e);
-  const onSubmit = (data) => {
-    const catIdAry = JSON.stringify(selectCatId);
-    const authIdAry = JSON.stringify(selectAuthId);
 
+  useEffect(() => {
+    if(isSuccess) {
+    setValue("title", BookData?.title);
+    setValue("pages", BookData?.page);
+    setValue("readingTime", BookData?.readingTime);
+    setDescription(BookData?.shortDesc);
+    setValue("shrotDesc", BookData?.shortDesc);
+    setContent(BookData?.content);
+    setValue("content", BookData?.content);
+    setValue("mainImage", BookData?.mainImage);
+    setValue("categories", BookData?.catagories);
+    setValue("bookAuthors", BookData?.authors);
+    
+    if (BookData?.status === 'a') {
+      setStatus({ free: BookData.isFree, active: true });
+    } else {
+      setStatus({ free: BookData.isFree, active: false });
+    }
+  }
+    console.log('bookdata', BookData)
+  }, [isSuccess]);
+  
+  const onError = (errors, e) => console.log("errors :" + errors, e);
+
+  const onSubmit = (data) => {
+    console.log('edit data: ', data);
+    const catagories = JSON.stringify(selectCatId);
+    const authors = JSON.stringify(selectAuthId);
     let isFree, isActive;
 
     if (status.free) {
@@ -70,34 +101,47 @@ const CreateArticle = () => {
     } else {
       isActive = "p";
     }
+
     const formData = new FormData();
+    formData.append("id", data.id);
     formData.append("title", data.title);
-    formData.append("readingTime", data.readingTime.toString() + " " + "min");
+    formData.append("readingTime", data.readingTime.toString() + " min");
     formData.append("shortDesc", description);
     formData.append("content", content);
     formData.append("mainImage", image[0], image[0].name);
-    formData.append("categories", catIdAry);
-    formData.append("articleAuthors", authIdAry);
+    formData.append("categories", catagories);
+    formData.append("bookAuthors",authors);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
-
     // for (const pair of formData.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
-
-    cretateArticleMutation.mutate(formData);
+    updateBookMutation.mutate({ formData, id: BookData.id });
   };
+
+  // useEffect(() => {
+  //   if (updateBookMutation.isSuccess) {
+  //     navigate("/admin/books");
+  //   }
+  // }, [updateBookMutation.isSuccess]);
+
+  // useEffect(() => {
+  //   if (updateBookMutation.isSuccess) {
+  //     refetch();
+  //   }
+  // }, [updateBookMutation.isSuccess]);
+
   return (
     <section>
       <div className="w-1/4 flex justify-between items- mb-10">
         <Link
-          to="/admin/articles"
+          to="/admin/books"
           className="flex items-center hover:underline font-semibold text-xl">
           <BsArrowLeft className="text-dreamLabColor1 " />
           <p className="ml-3 text-dreamLabColor1">Back</p>
         </Link>
 
-        <h3 className="font-bold text-xl">Create Article</h3>
+        <h3 className="font-bold text-xl">Update Book</h3>
       </div>
       <div className="flex flex-col">
         <form
@@ -106,19 +150,30 @@ const CreateArticle = () => {
           <div className="grid grid-cols-10">
             <div className="col-span-5 mr-10">
               <ImageUpload
-                uplaodImage={image}
+                uploadImage={image }
                 setUploadImage={setImage}
                 label="Upload a file"
+                existingImg={BookData?.mainImage}
               />
             </div>
             <div className="col-span-5 ">
               <InputForm
-                title="Article Name"
+                id="title"
+                title="Book Name"
                 name="title"
-                errors={errors}
-                placeholder="Type article name"
+                placeholder="Type book name"
                 register={register}
+                errors={errors}
               />
+              <InputForm
+                id="pages"
+                label="Book Pages"
+                name="pages"
+                type="number"
+                placeholder="Type number of pages"
+                register={register}
+                errors={errors}
+            />
               <Select
                 errors={errors}
                 label="Author"
@@ -127,24 +182,26 @@ const CreateArticle = () => {
                 defaultValues={authorData}
                 id={selectAuthId}
                 setId={setSelectAuthId}
+                name="bookAuthors"
               />
               <Select
                 errors={errors}
                 label="Categories"
                 options={selectCategories}
                 setOptions={setSelectCategories}
-                defaultValues={data}
+                defaultValues={catagoriesData}
                 id={selectCatId}
                 setId={setSelectCatId}
+                name="categories"
               />
               <InputForm
                 id="readingTime"
                 title="Duration"
                 type="number"
                 name="readingTime"
-                errors={errors}
                 placeholder="Type Duration"
                 register={register}
+                errors={errors}
               />
               <div className="font-bold tracking-wide">
                 <div className="flex w-2/3 items-center justify-between mt-4">
@@ -170,26 +227,28 @@ const CreateArticle = () => {
             </div>
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" />
+            {console.log('desc', description)}
+            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" placeholder={"Type Description"}/>
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={content} setValue={setContent} placeholder="Type Content...."/>
+            <EditableTextBox value={content} setValue={setContent} name="content" placeholder={"Type content"}/>
           </div>
-          {cretateArticleMutation.isError ?? (
+          {updateBookMutation.isError && (
             <p className="text-red-400">
-              {cretateArticleMutation.error.message}
+              {updateBookMutation.error.message}
             </p>
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"
             type="submit">
-            {cretateArticleMutation.isLoading && (
+            {updateBookMutation.isLoading && (
               <ClipLoader color="white" size={20} />
             )}
-            Create
+            Save
           </button>
-          {cretateArticleMutation.isSuccess ?? (
-            <p className="text-green-600">Request sent successfully</p>
+          {console.log('updateBookMutation.isSuccess: ', updateBookMutation.isSuccess)}
+          {updateBookMutation.isSuccess && (
+            <p className="text-green-600">Edit request sent successfully</p>
           )}
         </form>
       </div>
@@ -197,4 +256,4 @@ const CreateArticle = () => {
   );
 };
 
-export default CreateArticle;
+export default EditBook;

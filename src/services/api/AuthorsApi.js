@@ -15,7 +15,6 @@ export const fetchArticleAuthors = async () => {
   try {
     const response = await fetch(`${API_ENDPOINT}articleauthors`, requestOption);
     const data = await response.json();
-    console.log('data: ', data);
 
     if (!response.ok) throw new Error(data.message);
     return data;
@@ -26,7 +25,6 @@ export const fetchArticleAuthors = async () => {
 
 export const createArticleAuthor = async (data) => {
   const token = getToken();
-  console.log("create api called. ", data);
   const requestOption = {
     headers: {
       Accept: "application/json",
@@ -51,7 +49,6 @@ export const createArticleAuthor = async (data) => {
 };
 
 export const updateArticleAuthor = async (data) => {
-  console.log("data: ", data);
   const token = getToken();
   const requestOption = {
     headers: {
@@ -80,7 +77,6 @@ export const updateArticleAuthor = async (data) => {
 };
 
 export const deleteArticleAuthor = async (id) => {
-  console.log('id: ', id);
   const token = getToken();
   const requestOption = {
     headers: {
@@ -120,7 +116,6 @@ export const fetchBookAuthors = async () => {
   try {
     const response = await fetch(`${API_ENDPOINT}bookauthors`, requestOption);
     const data = await response.json();
-    console.log('data: ', data);
 
     if (!response.ok) throw new Error(data.message);
     return data;
@@ -145,7 +140,6 @@ export const createBookAuthor = async (data) => {
   try {
     const response = await fetch(`${API_ENDPOINT}bookauthors`, requestOption);
     const data = await response.json();
-    console.log('created data: ', data);
 
     if (!response.ok) throw new Error(data.message);
     return data;
@@ -155,7 +149,6 @@ export const createBookAuthor = async (data) => {
 };
 
 export const updateBookAuthor = async (data) => {
-  console.log("data: ", data);
   const token = getToken();
   const requestOption = {
     headers: {
@@ -184,7 +177,6 @@ export const updateBookAuthor = async (data) => {
 };
 
 export const deleteBookAuthor = async (id) => {
-  console.log('id: ', id);
   const token = getToken();
   const requestOption = {
     headers: {

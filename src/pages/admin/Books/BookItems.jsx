@@ -45,7 +45,7 @@ const BookItem = ({ book }) => {
         ))}
       </div>
 
-      <div className="col-span-2   flex gap-2">
+      <div className="col-span-2 flex gap-2">
         <div
           className={`w-1/2  ${currentIsFreeStatus} py-1 flex justify-center items-center rounded`}
         >
