@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import ReactSwitch from "react-switch";
 import { EditableTextBox } from "../../../components/form/EditableTextBox";
-import ImageUpload from "../../../components/form/ImageUpload";
+import ImageUpload from "../../../components/form/imageUpload";
 import InputForm from "../../../components/form/InputForm";
 import Select from "../../../components/form/Select";
 import { useBookAuthorsData } from "../../../hooks/useAuthors";
@@ -16,7 +16,7 @@ import { BsArrowLeft } from "react-icons/bs";
 
 const CreateBook = () => {
   const { data: categoriesData, isLoading } = useCategoriesData();
-  const { data: authorData, isLoading: authorLoading } =useBookAuthorsData();
+  const { data: authorData, isLoading: authorLoading } = useBookAuthorsData();
 
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
@@ -46,10 +46,10 @@ const CreateBook = () => {
   const cretateBookMutation = useCreateBook();
 
   useEffect(() => {
-    if(cretateBookMutation.isSuccess) {
+    if (cretateBookMutation.isSuccess) {
       reset();
     }
-  }, [cretateBookMutation.isSuccess])
+  }, [cretateBookMutation.isSuccess]);
 
   if (isLoading || authorLoading) {
     return (
@@ -60,36 +60,36 @@ const CreateBook = () => {
   }
   const onError = (errors, e) => console.log("errors :" + errors, e);
   const onSubmit = (data) => {
-  const categories = JSON.stringify(selectCatId);
-  const bookAuthors = JSON.stringify(selectAuthId);
-   
+    const categories = JSON.stringify(selectCatId);
+    const bookAuthors = JSON.stringify(selectAuthId);
+
     let isFree, isActive;
-      
-      if (status.free) {
-          isFree = 1;
-        } else {
-            isFree = 0;
-        }
-        
-        if (status.active) {
-            isActive = "a";
-        } else {
-            isActive = "p";
-        }
-        const formData = new FormData();
-        
-        formData.append("title", data.title);
-        formData.append("readingTime", data.readingTime.toString() + "min");
-        formData.append("page", data.page);
-        formData.append("shortDesc", description);
-        formData.append("content", content);
-        formData.append("mainImage", image[0], image[0].name);
-        formData.append("categories", categories);
-        formData.append("bookAuthors", bookAuthors);
-        formData.append("isFree", isFree);
-        formData.append("status", isActive);
-        
-        console.log('submit data: ', formData);
+
+    if (status.free) {
+      isFree = 1;
+    } else {
+      isFree = 0;
+    }
+
+    if (status.active) {
+      isActive = "a";
+    } else {
+      isActive = "p";
+    }
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("readingTime", data.readingTime.toString() + "min");
+    formData.append("page", data.page);
+    formData.append("shortDesc", description);
+    formData.append("content", content);
+    formData.append("mainImage", image[0], image[0].name);
+    formData.append("categories", categories);
+    formData.append("bookAuthors", bookAuthors);
+    formData.append("isFree", isFree);
+    formData.append("status", isActive);
+
+    console.log("submit data: ", formData);
     cretateBookMutation.mutate(formData);
   };
   return (
@@ -105,7 +105,7 @@ const CreateBook = () => {
         <h3 className="font-bold text-xl">Create Book</h3>
       </div>
       <div className="flex flex-col">
-      <form
+        <form
           onSubmit={handleSubmit(onSubmit, onError)}
           className="flex flex-col">
           <div className="grid grid-cols-10">
@@ -183,18 +183,28 @@ const CreateBook = () => {
             </div>
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" placeholder="Type short Description..."/>
+            <EditableTextBox
+              value={description}
+              setValue={setDescription}
+              name="shortDesc"
+              placeholder="Type short Description..."
+            />
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={content} setValue={setContent} name="content" placeholder="Type Content..." />
+            <EditableTextBox
+              value={content}
+              setValue={setContent}
+              name="content"
+              placeholder="Type Content..."
+            />
           </div>
           {cretateBookMutation.isError && (
-            <p className="text-red-400">
-              {cretateBookMutation.error.message}
-            </p>
+            <p className="text-red-400">{cretateBookMutation.error.message}</p>
           )}
           {cretateBookMutation.isSuccess && (
-            <p className="text-green-600 align-center">Request sent successfully</p>
+            <p className="text-green-600 align-center">
+              Request sent successfully
+            </p>
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"

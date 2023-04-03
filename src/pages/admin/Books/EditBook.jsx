@@ -14,7 +14,7 @@ import { useCategoriesData } from "../../../hooks/useCategories";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const EditBook= () => {
+const EditBook = () => {
   const { slug } = useParams();
   // const navigate = useNavigate();
   const { data: catagoriesData, isLoading: catLoading } = useCategoriesData();
@@ -25,7 +25,7 @@ const EditBook= () => {
   } = useBookAuthorsData();
   const { data: BookData, isSuccess } = useGetOneBook(slug);
   const updateBookMutation = useUpdateBook();
-  
+
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -38,7 +38,6 @@ const EditBook= () => {
 
   const [selectAuthId, setSelectAuthId] = useState([]);
   const [selectCatId, setSelectCatId] = useState([]);
-
 
   const editBookSchema = yup.object({
     title: yup.string().required(),
@@ -61,31 +60,31 @@ const EditBook= () => {
   }
 
   useEffect(() => {
-    if(isSuccess) {
-    setValue("title", BookData?.title);
-    setValue("pages", BookData?.page);
-    setValue("readingTime", BookData?.readingTime);
-    setDescription(BookData?.shortDesc);
-    setValue("shrotDesc", BookData?.shortDesc);
-    setContent(BookData?.content);
-    setValue("content", BookData?.content);
-    setValue("mainImage", BookData?.mainImage);
-    setValue("categories", BookData?.catagories);
-    setValue("bookAuthors", BookData?.authors);
-    
-    if (BookData?.status === 'a') {
-      setStatus({ free: BookData.isFree, active: true });
-    } else {
-      setStatus({ free: BookData.isFree, active: false });
+    if (isSuccess) {
+      setValue("title", BookData?.title);
+      setValue("pages", BookData?.page);
+      setValue("readingTime", BookData?.readingTime);
+      setDescription(BookData?.shortDesc);
+      setValue("shrotDesc", BookData?.shortDesc);
+      setContent(BookData?.content);
+      setValue("content", BookData?.content);
+      setValue("mainImage", BookData?.mainImage);
+      setValue("categories", BookData?.catagories);
+      setValue("bookAuthors", BookData?.authors);
+
+      if (BookData?.status === "a") {
+        setStatus({ free: BookData.isFree, active: true });
+      } else {
+        setStatus({ free: BookData.isFree, active: false });
+      }
     }
-  }
-    console.log('bookdata', BookData)
+    console.log("bookdata", BookData);
   }, [isSuccess]);
-  
+
   const onError = (errors, e) => console.log("errors :" + errors, e);
 
   const onSubmit = (data) => {
-    console.log('edit data: ', data);
+    // console.log("edit data: ", data);
     const catagories = JSON.stringify(selectCatId);
     const authors = JSON.stringify(selectAuthId);
     let isFree, isActive;
@@ -110,7 +109,7 @@ const EditBook= () => {
     formData.append("content", content);
     formData.append("mainImage", image[0], image[0].name);
     formData.append("categories", catagories);
-    formData.append("bookAuthors",authors);
+    formData.append("bookAuthors", authors);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
     // for (const pair of formData.entries()) {
@@ -150,7 +149,7 @@ const EditBook= () => {
           <div className="grid grid-cols-10">
             <div className="col-span-5 mr-10">
               <ImageUpload
-                uploadImage={image }
+                uploadImage={image}
                 setUploadImage={setImage}
                 label="Upload a file"
                 existingImg={BookData?.mainImage}
@@ -173,7 +172,7 @@ const EditBook= () => {
                 placeholder="Type number of pages"
                 register={register}
                 errors={errors}
-            />
+              />
               <Select
                 errors={errors}
                 label="Author"
@@ -227,16 +226,24 @@ const EditBook= () => {
             </div>
           </div>
           <div className="col-span-10 mt-5 ">
-            {console.log('desc', description)}
-            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" placeholder={"Type Description"}/>
+            {console.log("desc", description)}
+            <EditableTextBox
+              value={description}
+              setValue={setDescription}
+              name="shortDesc"
+              placeholder={"Type Description"}
+            />
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={content} setValue={setContent} name="content" placeholder={"Type content"}/>
+            <EditableTextBox
+              value={content}
+              setValue={setContent}
+              name="content"
+              placeholder={"Type content"}
+            />
           </div>
           {updateBookMutation.isError && (
-            <p className="text-red-400">
-              {updateBookMutation.error.message}
-            </p>
+            <p className="text-red-400">{updateBookMutation.error.message}</p>
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"
@@ -246,7 +253,10 @@ const EditBook= () => {
             )}
             Save
           </button>
-          {console.log('updateBookMutation.isSuccess: ', updateBookMutation.isSuccess)}
+          {console.log(
+            "updateBookMutation.isSuccess: ",
+            updateBookMutation.isSuccess
+          )}
           {updateBookMutation.isSuccess && (
             <p className="text-green-600">Edit request sent successfully</p>
           )}
