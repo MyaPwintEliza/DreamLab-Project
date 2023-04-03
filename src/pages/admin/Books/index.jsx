@@ -4,6 +4,8 @@ import BookItem from "./BookItems";
 import { ClipLoader } from "react-spinners";
 import Select from "react-select";
 import { useBookAuthorsData } from "../../../hooks/useAuthors";
+import { Link } from "react-router-dom";
+import { IoMdAddCircle } from "react-icons/io";
 
 const sortingOptions = [
   { value: "l", label: "Latest" },
@@ -43,9 +45,9 @@ const pricingOptions = [
 const BookIndex = () => {
   const [search, setSearch] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const [sorting, setSorting] = useState({ value: "l", label: "Latest" });
-  const [status, setStatus] = useState({ value: "", label: "All" });
-  const [author, setAuthor] = useState({ value: "", label: "All" });
+  const [sorting, setSorting] = useState({ value: "", label: "Latest" });
+  const [status, setStatus] = useState({ value: "", label: "All Status" });
+  const [author, setAuthor] = useState({ value: "", label: "All Authors" });
   const [authorOptions, setAuthorOptions] = useState([
     { value: "", label: "All" },
   ]);
@@ -67,7 +69,8 @@ const BookIndex = () => {
     status.value,
     author.value,
     isFree.value,
-    sorting.value
+    sorting.value,
+    authorOptions.value,
   );
 
 
@@ -110,7 +113,12 @@ const BookIndex = () => {
     <div className="container mx-auto">
       <header className="flex justify-between font-poppins mb-8">
         <h2 className="text-2xl font-bold text-textColor1">Uploaded Books</h2>
-          <span>Create Book</span>
+        <Link
+          to={"/admin/books/create"}
+          className="flex bg-dreamLabColor2 rounded-md btn-2 items-center py-2 px-10 gap-x-2">
+          <IoMdAddCircle />
+          Create Book
+        </Link>
       </header>
       {isLoading || authorLoading ? (
         <div className="col-span-12 mt-8 flex justify-center items-center">
@@ -155,7 +163,7 @@ const BookIndex = () => {
           </ul>
           <ul>
             {books.items.map((book, index) => (
-              <BookItem key={book.slug} book={book} number={index + 1} />
+              <BookItem book={book} number={index + 1} />
             ))}
           </ul>
         </section>

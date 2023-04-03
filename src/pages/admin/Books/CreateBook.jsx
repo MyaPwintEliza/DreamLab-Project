@@ -1,39 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import ReactSwitch from "react-switch";
 import { EditableTextBox } from "../../../components/form/EditableTextBox";
-import ImageUpload from "../../../components/form/imageUpload";
+import ImageUpload from "../../../components/form/ImageUpload";
 import InputForm from "../../../components/form/InputForm";
 import Select from "../../../components/form/Select";
-import { useArticleAuthorsData } from "../../../hooks/useAuthors";
+import { useBookAuthorsData } from "../../../hooks/useAuthors";
 import { useCategoriesData } from "../../../hooks/useCategories";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateArticle } from "../../../hooks/useArticles";
+import { useCreateBook } from "../../../hooks/useBooks";
 import { Link } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
-const CreateArticle = () => {
-  const { data, isLoading } = useCategoriesData();
-  const { data: authorData, isLoading: authorLoading } =
-    useArticleAuthorsData();
+
+const CreateBook = () => {
+  const { data: categoriesData, isLoading } = useCategoriesData();
+  const { data: authorData, isLoading: authorLoading } =useBookAuthorsData();
 
   const [image, setImage] = useState(null);
-  const [description, setDescription] = useState("Type Article Description");
-  const [content, setContent] = useState("Type Content Description");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
   const [selectAuthors, setSelectAuthors] = useState([]);
   const [selectCategories, setSelectCategories] = useState([]);
   const [status, setStatus] = useState({
     free: false,
     active: false,
   });
-
   const [selectAuthId, setSelectAuthId] = useState([]);
   const [selectCatId, setSelectCatId] = useState([]);
 
-  const createArticleSchema = yup.object({
+  const createBookSchema = yup.object({
     title: yup.string().required(),
     readingTime: yup.number().required(),
+    page: yup.number().required(),
   });
 
   const {
@@ -41,9 +41,15 @@ const CreateArticle = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({ resolver: yupResolver(createArticleSchema) });
+  } = useForm({ resolver: yupResolver(createBookSchema) });
 
-  const cretateArticleMutation = useCreateArticle();
+  const cretateBookMutation = useCreateBook();
+
+  useEffect(() => {
+    if(cretateBookMutation.isSuccess) {
+      reset();
+    }
+  }, [cretateBookMutation.isSuccess])
 
   if (isLoading || authorLoading) {
     return (
@@ -54,53 +60,52 @@ const CreateArticle = () => {
   }
   const onError = (errors, e) => console.log("errors :" + errors, e);
   const onSubmit = (data) => {
-    const catIdAry = JSON.stringify(selectCatId);
-    const authIdAry = JSON.stringify(selectAuthId);
-
+  const categories = JSON.stringify(selectCatId);
+  const bookAuthors = JSON.stringify(selectAuthId);
+   
     let isFree, isActive;
-
-    if (status.free) {
-      isFree = 1;
-    } else {
-      isFree = 0;
-    }
-
-    if (status.active) {
-      isActive = "a";
-    } else {
-      isActive = "p";
-    }
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("readingTime", data.readingTime.toString() + " " + "min");
-    formData.append("shortDesc", description);
-    formData.append("content", content);
-    formData.append("mainImage", image[0], image[0].name);
-    formData.append("categories", catIdAry);
-    formData.append("articleAuthors", authIdAry);
-    formData.append("isFree", isFree);
-    formData.append("status", isActive);
-
-    // for (const pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
-
-    cretateArticleMutation.mutate(formData);
+      
+      if (status.free) {
+          isFree = 1;
+        } else {
+            isFree = 0;
+        }
+        
+        if (status.active) {
+            isActive = "a";
+        } else {
+            isActive = "p";
+        }
+        const formData = new FormData();
+        
+        formData.append("title", data.title);
+        formData.append("readingTime", data.readingTime.toString() + "min");
+        formData.append("page", data.page);
+        formData.append("shortDesc", description);
+        formData.append("content", content);
+        formData.append("mainImage", image[0], image[0].name);
+        formData.append("categories", categories);
+        formData.append("bookAuthors", bookAuthors);
+        formData.append("isFree", isFree);
+        formData.append("status", isActive);
+        
+        console.log('submit data: ', formData);
+    cretateBookMutation.mutate(formData);
   };
   return (
     <section>
-      <div className="w-1/4 flex justify-between items- mb-10">
+      <div className="w-1/4 flex justify-between items-mb-10">
         <Link
-          to="/admin/articles"
+          to="/admin/books"
           className="flex items-center hover:underline font-semibold text-xl">
           <BsArrowLeft className="text-dreamLabColor1 " />
           <p className="ml-3 text-dreamLabColor1">Back</p>
         </Link>
 
-        <h3 className="font-bold text-xl">Create Article</h3>
+        <h3 className="font-bold text-xl">Create Book</h3>
       </div>
       <div className="flex flex-col">
-        <form
+      <form
           onSubmit={handleSubmit(onSubmit, onError)}
           className="flex flex-col">
           <div className="grid grid-cols-10">
@@ -113,11 +118,19 @@ const CreateArticle = () => {
             </div>
             <div className="col-span-5 ">
               <InputForm
-                title="Article Name"
+                title="Book Name"
                 name="title"
                 errors={errors}
-                placeholder="Type article name"
+                placeholder="Type book name"
                 register={register}
+              />
+              <InputForm
+                label="Book Pages"
+                name="page"
+                type="number"
+                placeholder="Type number of pages"
+                register={register}
+                errors={errors}
               />
               <Select
                 errors={errors}
@@ -133,7 +146,7 @@ const CreateArticle = () => {
                 label="Categories"
                 options={selectCategories}
                 setOptions={setSelectCategories}
-                defaultValues={data}
+                defaultValues={categoriesData}
                 id={selectCatId}
                 setId={setSelectCatId}
               />
@@ -170,31 +183,31 @@ const CreateArticle = () => {
             </div>
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" />
+            <EditableTextBox value={description} setValue={setDescription} name="shortDesc" placeholder="Type short Description..."/>
           </div>
           <div className="col-span-10 mt-5 ">
-            <EditableTextBox value={content} setValue={setContent} placeholder="Type Content...."/>
+            <EditableTextBox value={content} setValue={setContent} name="content" placeholder="Type Content..." />
           </div>
-          {cretateArticleMutation.isError ?? (
+          {cretateBookMutation.isError && (
             <p className="text-red-400">
-              {cretateArticleMutation.error.message}
+              {cretateBookMutation.error.message}
             </p>
+          )}
+          {cretateBookMutation.isSuccess && (
+            <p className="text-green-600 align-center">Request sent successfully</p>
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"
             type="submit">
-            {cretateArticleMutation.isLoading && (
+            {cretateBookMutation.isLoading && (
               <ClipLoader color="white" size={20} />
             )}
             Create
           </button>
-          {cretateArticleMutation.isSuccess ?? (
-            <p className="text-green-600">Request sent successfully</p>
-          )}
         </form>
       </div>
     </section>
   );
 };
 
-export default CreateArticle;
+export default CreateBook;

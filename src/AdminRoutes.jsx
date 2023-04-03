@@ -12,6 +12,8 @@ import BookAuthors from "./pages/admin/Authors/BookAuthors";
 import CreateArticle from "./pages/admin/article/CreateArticle";
 import EditArticle from "./pages/admin/article/EditArticle";
 import Books from "./pages/admin/Books";
+import CreateBook from "./pages/admin/Books/CreateBook";
+import EditBook from "./pages/admin/Books/EditBook";
 import Register from "./pages/admin/register";
 import SubscriberIndex from "./pages/admin/subscriber";
 import AllSubscribers from "./pages/admin/subscriber/AllSubscribers";
@@ -46,6 +48,13 @@ const AdminRoutes = [
           { path: "bookauthors", element: <BookAuthors /> },
         ],
       },
+      { path: "books", 
+        children: [
+          { index: true, element: <Books />}, 
+          { path: "create", element: <CreateBook /> },
+          { path: "edit/:slug", element: <EditBook /> },
+        ] 
+      },
       {
         path: "subscriptions",
         children: [
@@ -62,10 +71,6 @@ const AdminRoutes = [
           { path: "create", element: <CreateArticle /> },
           { path: "edit/:slug", element: <EditArticle /> },
         ],
-      },
-      {
-        path: "books",
-        children: [{ index: true, element: <Books /> }],
       },
     ],
   },

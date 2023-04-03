@@ -6,9 +6,11 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import { useEffect } from "react";
+import Placeholder from '@tiptap/extension-placeholder'
+// import { useEffect } from "react";
 
-export function EditableTextBox({ value, setValue }) {
+export function EditableTextBox({ value, setValue, placeholder }) {
+  console.log('value: ', value);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -18,6 +20,9 @@ export function EditableTextBox({ value, setValue }) {
       SubScript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Placeholder.configure({
+        placeholder: placeholder,
+      }),
     ],
     editorProps: {
       attributes: {
@@ -48,6 +53,7 @@ export function EditableTextBox({ value, setValue }) {
 
   const handleClick = () => {
     const text = editor.getText();
+    console.log('text: ', text);
     setValue(text);
   };
 
@@ -56,7 +62,7 @@ export function EditableTextBox({ value, setValue }) {
   // }, [value]);
 
   return (
-    <RichTextEditor editor={editor}>
+    <RichTextEditor editor={editor} >
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
