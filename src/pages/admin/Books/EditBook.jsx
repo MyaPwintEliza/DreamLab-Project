@@ -84,7 +84,6 @@ const EditBook = () => {
   const onError = (errors, e) => console.log("errors :" + errors, e);
 
   const onSubmit = (data) => {
-    // console.log("edit data: ", data);
     const catagories = JSON.stringify(selectCatId);
     const authors = JSON.stringify(selectAuthId);
     let isFree, isActive;
