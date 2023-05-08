@@ -19,18 +19,23 @@ const ImageUpload = ({ label = "", uploadImage, setUploadImage, existingImg }) =
     <div>
       <div className="border border-dashed mt-5 p-28  rounded-md">
         {uploadImage ? (
-          <div className="justify-center flex">
+          <div className="justify-center flex flex-wrap">
+             <label
+              for="file-upload"
+              className="border-1 py-2 px-4 rounded-lg hover:bg-blue-600 cursor-pointer">
+              {label == "" ? null : `${label}`}
+            </label>
               <input
                     onChange={(e) => {
                       if (e.target.files.length) {
                         setUploadImage(e.target.files);
                       }
                     } }
+                    id="file-upload"
                     required
                     accept="image/*"
                     type="file"
-                    className="form-input w-full py-2 cursor-pointer"
-                    placeholder="choose file" />
+                    className="opacity-0 cursor-pointer"/>
               <img
                 src={imgSrc}
                 alt="Your image"
@@ -52,7 +57,7 @@ const ImageUpload = ({ label = "", uploadImage, setUploadImage, existingImg }) =
 
             <label
               for="file-upload"
-              className="bg-blue-500 py-2 px-4 rounded-lg hover:bg-blue-600 cursor-pointer">
+              className="py-2 px-4 rounded-lg hover:bg-blue-600 cursor-pointer">
               {label == "" ? null : `${label}`}
             </label>
             <input
@@ -65,7 +70,7 @@ const ImageUpload = ({ label = "", uploadImage, setUploadImage, existingImg }) =
               accept="image/*"
               type="file"
               id="file-upload"
-              className="form-input w-full py-2 cursor-pointer bg-black opacity-0 absolute"
+              className="form-input w-full py-2 cursor-pointer opacity-0 absolute"
             />
           </div>
         )}
