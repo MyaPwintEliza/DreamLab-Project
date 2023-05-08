@@ -7,25 +7,31 @@ import ReactSwitch from "react-switch";
 import { EditableTextBox } from "../../../components/form/EditableTextBox";
 import ImageUpload from "../../../components/form/imageUpload";
 import InputForm from "../../../components/form/InputForm";
+import TextareaForm from "../../../components/form/TextareaFrom";
 import Select from "../../../components/form/Select";
 import { useGetOneBook, useUpdateBook } from "../../../hooks/useBooks";
 import { useBookAuthorsData } from "../../../hooks/useAuthors";
 import { useCategoriesData } from "../../../hooks/useCategories";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 const EditBook = () => {
   const { slug } = useParams();
-  // const navigate = useNavigate();
-  const { data: catagoriesData, isLoading: catLoading } = useCategoriesData();
+  const navigate = useNavigate();
+  const { data: categoriesData, isLoading: catLoading } = useCategoriesData();
   const {
     data: authorData,
     isLoading: authorLoading,
     // refetch,
   } = useBookAuthorsData();
   const { data: BookData, isSuccess } = useGetOneBook(slug);
+  console.log('isSuccess: ', isSuccess);
+  console.log('BookData: ', BookData);
   const updateBookMutation = useUpdateBook();
-
+  
+  console.log('categoriesData: ', categoriesData);
+  
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -37,7 +43,7 @@ const EditBook = () => {
   });
 
   const [selectAuthId, setSelectAuthId] = useState([]);
-  const [selectCatId, setSelectCatId] = useState([]);
+  const [selectCatId, setSelectCatId] = useState(BookData?.categories);
 
   const editBookSchema = yup.object({
     title: yup.string().required(),
@@ -58,19 +64,18 @@ const EditBook = () => {
       </article>
     );
   }
-
   useEffect(() => {
-    if (isSuccess) {
-      setValue("title", BookData?.title);
-      setValue("pages", BookData?.page);
-      setValue("readingTime", BookData?.readingTime);
-      setDescription(BookData?.shortDesc);
-      setValue("shrotDesc", BookData?.shortDesc);
-      setContent(BookData?.content);
-      setValue("content", BookData?.content);
-      setValue("mainImage", BookData?.mainImage);
-      setValue("categories", BookData?.catagories);
-      setValue("bookAuthors", BookData?.authors);
+    if(isSuccess) {
+      setValue("title", BookData.title);
+      setValue("page", BookData.page);
+      setValue("readingTime", BookData.readingTime.toString() + " min");
+      setDescription(BookData.shortDesc);
+      setValue("shortDesc", BookData.shortDesc);
+      setContent(BookData.content);
+      setValue("content", BookData.content);
+      setValue("mainImage", BookData.mainImage);
+      setValue("categories", BookData.categories);
+      setValue("bookAuthors", BookData.bookAuthors);
 
       if (BookData?.status === "a") {
         setStatus({ free: BookData.isFree, active: true });
@@ -78,7 +83,6 @@ const EditBook = () => {
         setStatus({ free: BookData.isFree, active: false });
       }
     }
-    console.log("bookdata", BookData);
   }, [isSuccess]);
 
   const onError = (errors, e) => console.log("errors :" + errors, e);
@@ -111,21 +115,13 @@ const EditBook = () => {
     formData.append("bookAuthors", authors);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
-    // for (const pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
+  
     updateBookMutation.mutate({ formData, id: BookData.id });
   };
 
   // useEffect(() => {
   //   if (updateBookMutation.isSuccess) {
   //     navigate("/admin/books");
-  //   }
-  // }, [updateBookMutation.isSuccess]);
-
-  // useEffect(() => {
-  //   if (updateBookMutation.isSuccess) {
-  //     refetch();
   //   }
   // }, [updateBookMutation.isSuccess]);
 
@@ -153,6 +149,14 @@ const EditBook = () => {
                 label="Upload a file"
                 existingImg={BookData?.mainImage}
               />
+              <TextareaForm
+                id="shortDesc"
+                title="Short Description"
+                name="shortDesc"
+                placeholder="Type Description"
+                register={register}
+                errors={errors}
+              />
             </div>
             <div className="col-span-5 ">
               <InputForm
@@ -164,9 +168,9 @@ const EditBook = () => {
                 errors={errors}
               />
               <InputForm
-                id="pages"
+                id="page"
                 label="Book Pages"
-                name="pages"
+                name="page"
                 type="number"
                 placeholder="Type number of pages"
                 register={register}
@@ -187,7 +191,7 @@ const EditBook = () => {
                 label="Categories"
                 options={selectCategories}
                 setOptions={setSelectCategories}
-                defaultValues={catagoriesData}
+                defaultValues={categoriesData}
                 id={selectCatId}
                 setId={setSelectCatId}
                 name="categories"

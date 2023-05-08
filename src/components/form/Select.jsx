@@ -10,6 +10,7 @@ function Select({
   id,
   setId,
 }) {
+  console.log('id: ', id);
   //   const [inputValue, setInputValue] = useState("");
 
   //   const handleInputChange = (event) => {
@@ -62,10 +63,11 @@ function Select({
         for="label"
         className="rounded-md py-1.5 px-4 border-stoke border-2 w-full ">
         <option value="" disabled>
-          Select...
+          Select....
         </option>
-        {defaultValues.map((defaultValue) => (
-          <option key={defaultValue.id} value={defaultValue.name}>
+        { 
+          defaultValues.map((defaultValue) => (
+          <option key={defaultValue.id} value={defaultValue.name} selected={id && (defaultValue.name === id[0]?.name) ? true : false}>
             {defaultValue.name}
           </option>
         ))}
