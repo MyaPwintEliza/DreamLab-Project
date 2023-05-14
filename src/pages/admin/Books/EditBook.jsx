@@ -23,15 +23,9 @@ const EditBook = () => {
   const {
     data: authorData,
     isLoading: authorLoading,
-    // refetch,
   } = useBookAuthorsData();
   const { data: BookData, isSuccess } = useGetOneBook(slug);
-  console.log('isSuccess: ', isSuccess);
-  console.log('BookData: ', BookData);
   const updateBookMutation = useUpdateBook();
-  
-  console.log('categoriesData: ', categoriesData);
-  
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -57,13 +51,12 @@ const EditBook = () => {
     setValue,
   } = useForm({ resolver: yupResolver(editBookSchema) });
 
-  if (catLoading || authorLoading) {
-    return (
-      <article className="flex items-center justify-center h-screen">
-        <ClipLoader />
-      </article>
-    );
-  }
+  useEffect(() => {
+    if (updateBookMutation.isSuccess) {
+      navigate("/admin/books");
+    }
+  }, [updateBookMutation.isSuccess]);
+  
   useEffect(() => {
     if(isSuccess) {
       setValue("title", BookData.title);
@@ -76,7 +69,7 @@ const EditBook = () => {
       setValue("mainImage", BookData.mainImage);
       setValue("categories", BookData.categories);
       setValue("bookAuthors", BookData.bookAuthors);
-
+      
       if (BookData?.status === "a") {
         setStatus({ free: BookData.isFree, active: true });
       } else {
@@ -84,26 +77,26 @@ const EditBook = () => {
       }
     }
   }, [isSuccess]);
-
+  
   const onError = (errors, e) => console.log("errors :" + errors, e);
-
+  
   const onSubmit = (data) => {
     const catagories = JSON.stringify(selectCatId);
     const authors = JSON.stringify(selectAuthId);
     let isFree, isActive;
-
+    
     if (status.free) {
       isFree = 1;
     } else {
       isFree = 0;
     }
-
+    
     if (status.active) {
       isActive = "a";
     } else {
       isActive = "p";
     }
-
+    
     const formData = new FormData();
     formData.append("id", data.id);
     formData.append("title", data.title);
@@ -115,15 +108,17 @@ const EditBook = () => {
     formData.append("bookAuthors", authors);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
-  
+    
     updateBookMutation.mutate({ formData, id: BookData.id });
   };
-
-  // useEffect(() => {
-  //   if (updateBookMutation.isSuccess) {
-  //     navigate("/admin/books");
-  //   }
-  // }, [updateBookMutation.isSuccess]);
+  
+  if (catLoading || authorLoading) {
+    return (
+      <article className="flex items-center justify-center h-screen">
+        <ClipLoader />
+      </article>
+    );
+  }
 
   return (
     <section>
