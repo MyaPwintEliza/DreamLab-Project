@@ -6,6 +6,8 @@ import {
   getOneBook,
   createBook,
   updateBook,
+  getPopularBooks,
+  getLatestBooks,
 } from "../services/api/BooksApi";
 
 export const useGetBooks = (
@@ -19,8 +21,7 @@ export const useGetBooks = (
 ) => {
   return useQuery(
     ["books", page, limit, search, status, authorId, isFree, sorting],
-    () =>
-      getBooks(page, limit, search, status, authorId, isFree, sorting)
+    () => getBooks(page, limit, search, status, authorId, isFree, sorting)
   );
 };
 
@@ -36,5 +37,10 @@ export const useUpdateBook = () => {
   return useMutation(updateBook);
 };
 
+export const useGetLatestBooks = () => {
+  return useQuery(["latestbooks"],getLatestBooks);
+};
 
-
+export const useGetPopularBooks = () => {
+  return useQuery(["popularbooks"], getPopularBooks);
+};

@@ -18,6 +18,9 @@ import * as yup from "yup";
 import InputForm from "../../../components/form/InputForm";
 import { IoMdImages } from "react-icons/io";
 import ImageUpload from "../../../components/form/imageUpload";
+import { TOKEN_LOCAL_STORAGE } from "../../../hooks/useUserAuth";
+import { useRegisterContext } from "../../../contexts/RegisterContext";
+import { useLoginContext } from "../../../contexts/LoginContext";
 
 const SupscriptionSchema = yup.object({
   name: yup.string().required(),
@@ -25,7 +28,22 @@ const SupscriptionSchema = yup.object({
   phone: yup.string().required(),
 });
 
+export const checkValidUser = () => {
+  if(token != null){
+    setUser(JSON.parse(localStorage.getItem(USER_DATA_LOCAL_STORAGE)));
+  }else{
+    changeLoginStatus();
+  }
+}
+
 const payment = () => {
+  const token = localStorage.getItem(TOKEN_LOCAL_STORAGE)
+  const { changeStatus: changeLoginStatus } = useLoginContext();
+  const [user,setUser] = useState(null)
+
+ 
+  
+
   const userSubscriptionMutation = useUserSubscribe();
   const bankCards = [
     {
@@ -214,6 +232,7 @@ const payment = () => {
               </p>
             )}
             <button
+              onClick={checkValidUser}
               type="submit"
               className="mt-14  w-full btn bg-dreamLabColor2 p-3 rounded-md font-semibold text-center">
               {userSubscriptionMutation.isLoading && (

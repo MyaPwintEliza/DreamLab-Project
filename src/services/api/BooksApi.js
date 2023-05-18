@@ -1,14 +1,14 @@
 import { getToken } from "../../utils/getToken";
 import { API_ENDPOINT } from "./api_endpoint";
 
-export const getBooks= async (
+export const getBooks = async (
   page,
   limit,
   search,
   status,
   authorId,
   isFree,
-sorting
+  sorting
 ) => {
   const token = getToken();
   const isPage = page ? `page=${page}` : "";
@@ -68,6 +68,45 @@ export const getOneBook = async (slug) => {
   }
 };
 
+export const getPopularBooks = async () => {
+  const requestOption = {
+    method: "GET",
+    mode: "cors",
+    redirect: "follow",
+  };
+
+  try {
+    const res = await fetch(`${API_ENDPOINT}books/get/popular`,requestOption);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getLatestBooks = async () => {
+  
+  try {
+    const res = await fetch(`${API_ENDPOINT}books?sorting=l&limit=4`, {
+      method: "GET",
+      mode: "cors",
+      redirect: "follow"
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+ 
+
 export const createBook = async (formData) => {
   const token = getToken();
   const requestOption = {
@@ -91,7 +130,6 @@ export const createBook = async (formData) => {
   }
 };
 
-
 export const updateBook = async ({ formData, id }) => {
   const token = getToken();
 
@@ -106,10 +144,7 @@ export const updateBook = async ({ formData, id }) => {
   };
 
   try {
-    const response = await fetch(
-      `${API_ENDPOINT}books/${id}`,
-      requestOptions
-    );
+    const response = await fetch(`${API_ENDPOINT}books/${id}`, requestOptions);
     const data = await response.json();
     console.log("update book data ->", data);
 
