@@ -76,7 +76,7 @@ export const getPopularBooks = async () => {
   };
 
   try {
-    const res = await fetch(`${API_ENDPOINT}books/get/popular`);
+    const res = await fetch(`${API_ENDPOINT}books/get/popular`,requestOption);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
@@ -84,6 +84,28 @@ export const getPopularBooks = async () => {
     throw error;
   }
 };
+
+export const getLatestBooks = async () => {
+  
+  try {
+    const res = await fetch(`${API_ENDPOINT}books?sorting=l&limit=4`, {
+      method: "GET",
+      mode: "cors",
+      redirect: "follow"
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+ 
 
 export const createBook = async (formData) => {
   const token = getToken();

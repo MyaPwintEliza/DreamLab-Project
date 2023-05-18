@@ -1,11 +1,11 @@
 import React from "react";
-import { useGetPopularBooks } from "../../../hooks/useBooks";
 import { ClipLoader } from "react-spinners";
 import Card from "./Card";
+import { useGetPopularArticles } from "../../../hooks/useArticles";
 
-export default function PopularBooks() {
-  const { isLoading, data } = useGetPopularBooks();
-  console.log(`${data} => popular books`);
+export default function PopularArticles() {
+  const { isLoading, data } = useGetPopularArticles();
+  console.log(data);
   return (
     <section>
       {isLoading ? (
@@ -13,7 +13,7 @@ export default function PopularBooks() {
           <ClipLoader size={48} />
         </div>
       ) : (
-        <Card datas={data} title="Popular Books" />
+        <Card datas={data} title="Popular Articles"/>
       )}
     </section>
   );

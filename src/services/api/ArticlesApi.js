@@ -74,6 +74,39 @@ export const getOneArticle = async (slug) => {
   }
 };
 
+export const getPopularArticles = async () => {
+  const requestOption = {
+    method: "GET",
+    mode: "cors",
+    redirect: "follow",
+  };
+
+  try {
+    const res = await fetch(`${API_ENDPOINT}articles/get/popular`,requestOption);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const getLatestArticles = async () => {
+  try {
+    const res = await fetch(`${API_ENDPOINT}articles?sorting=l&limit=4`,{
+      method: "GET",
+      mode: "cors",
+      redirect: "follow",
+    })
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    throw error
+  }
+}
+
 export const updateArticle = async ({ formData, id }) => {
   const token = getToken();
 

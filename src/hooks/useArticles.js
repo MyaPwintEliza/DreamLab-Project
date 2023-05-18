@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchAdminArticles, getOneArticle } from "../services/api/ArticlesApi";
+import { fetchAdminArticles, getLatestArticles, getOneArticle, getPopularArticles } from "../services/api/ArticlesApi";
 import { createArticle, updateArticle } from "../services/api/ArticlesApi";
 
 export const useArticlesData = () => {
@@ -16,4 +16,12 @@ export const useCreateArticle = () => {
 
 export const useUpdateArticle = () => {
   return useMutation(updateArticle);
+};
+
+export const useGetPopularArticles = () => {
+  return useQuery(["populararticles"], getPopularArticles);
+};
+
+export const useGetLatestArticles = () => {
+  return useQuery(["latestarticles"], getLatestArticles);
 };

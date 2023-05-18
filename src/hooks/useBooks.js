@@ -7,6 +7,7 @@ import {
   createBook,
   updateBook,
   getPopularBooks,
+  getLatestBooks,
 } from "../services/api/BooksApi";
 
 export const useGetBooks = (
@@ -34,6 +35,10 @@ export const useCreateBook = () => {
 
 export const useUpdateBook = () => {
   return useMutation(updateBook);
+};
+
+export const useGetLatestBooks = () => {
+  return useQuery(["latestbooks"],getLatestBooks);
 };
 
 export const useGetPopularBooks = () => {
