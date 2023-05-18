@@ -24,7 +24,7 @@ const Header = () => {
           <img src={Logo} alt="Dream Lab Logo" />
         </div>
       </div>
-      <div className={customStyles["navbar-title"]}>(Content Title)</div>
+      <div className={customStyles["navbar-title"]}></div>
       <div className={customStyles["right-nav"]}>
         <div className={customStyles["noti-icon"]}>
           <BiBell className="w-5 h-5 md:w-6 md:h-6" />

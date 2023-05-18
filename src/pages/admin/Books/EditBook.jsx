@@ -20,10 +20,7 @@ const EditBook = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { data: categoriesData, isLoading: catLoading } = useCategoriesData();
-  const {
-    data: authorData,
-    isLoading: authorLoading,
-  } = useBookAuthorsData();
+  const { data: authorData, isLoading: authorLoading } = useBookAuthorsData();
   const { data: BookData, isSuccess } = useGetOneBook(slug);
   const updateBookMutation = useUpdateBook();
   const [image, setImage] = useState(null);
@@ -56,20 +53,22 @@ const EditBook = () => {
       navigate("/admin/books");
     }
   }, [updateBookMutation.isSuccess]);
-  
+
   useEffect(() => {
-    if(isSuccess) {
+    if (isSuccess) {
+      setValue("id", BookData.id);
       setValue("title", BookData.title);
       setValue("page", BookData.page);
       setValue("readingTime", BookData.readingTime.toString() + " min");
       setDescription(BookData.shortDesc);
       setValue("shortDesc", BookData.shortDesc);
+      setContent(BookData.description);
       setContent(BookData.content);
       setValue("content", BookData.content);
       setValue("mainImage", BookData.mainImage);
       setValue("categories", BookData.categories);
       setValue("bookAuthors", BookData.bookAuthors);
-      
+
       if (BookData?.status === "a") {
         setStatus({ free: BookData.isFree, active: true });
       } else {
@@ -77,41 +76,41 @@ const EditBook = () => {
       }
     }
   }, [isSuccess]);
-  
+
   const onError = (errors, e) => console.log("errors :" + errors, e);
-  
+
   const onSubmit = (data) => {
     const catagories = JSON.stringify(selectCatId);
     const authors = JSON.stringify(selectAuthId);
     let isFree, isActive;
-    
+
     if (status.free) {
       isFree = 1;
     } else {
       isFree = 0;
     }
-    
+
     if (status.active) {
       isActive = "a";
     } else {
       isActive = "p";
     }
-    
+
     const formData = new FormData();
     formData.append("id", data.id);
     formData.append("title", data.title);
     formData.append("readingTime", data.readingTime.toString() + " min");
-    formData.append("shortDesc", description);
+    formData.append("shortDesc", data.shortDesc);
     formData.append("content", content);
     formData.append("mainImage", image[0], image[0].name);
     formData.append("categories", catagories);
     formData.append("bookAuthors", authors);
     formData.append("isFree", isFree);
     formData.append("status", isActive);
-    
+
     updateBookMutation.mutate({ formData, id: BookData.id });
   };
-  
+
   if (catLoading || authorLoading) {
     return (
       <article className="flex items-center justify-center h-screen">
@@ -125,7 +124,8 @@ const EditBook = () => {
       <div className="w-1/4 flex justify-between items- mb-10">
         <Link
           to="/admin/books"
-          className="flex items-center hover:underline font-semibold text-xl">
+          className="flex items-center hover:underline font-semibold text-xl"
+        >
           <BsArrowLeft className="text-dreamLabColor1 " />
           <p className="ml-3 text-dreamLabColor1">Back</p>
         </Link>
@@ -135,7 +135,8 @@ const EditBook = () => {
       <div className="flex flex-col">
         <form
           onSubmit={handleSubmit(onSubmit, onError)}
-          className="flex flex-col">
+          className="flex flex-col"
+        >
           <div className="grid grid-cols-10">
             <div className="col-span-5 mr-10">
               <ImageUpload
@@ -245,7 +246,8 @@ const EditBook = () => {
           )}
           <button
             className="bg-dreamLabColor2 rounded-md py-2 my-8 flex items-center justify-center gap-x-3"
-            type="submit">
+            type="submit"
+          >
             {updateBookMutation.isLoading && (
               <ClipLoader color="white" size={20} />
             )}
